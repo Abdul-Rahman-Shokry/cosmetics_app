@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
-import 'on_boarding_1.dart';
+import 'onboarding/on_boarding1.dart';
 
-class SplashScreen extends StatefulWidget {
-  const SplashScreen({super.key});
+class SplashView extends StatefulWidget {
+  const SplashView({super.key});
 
   @override
-  State<SplashScreen> createState() => _SplashScreenState();
+  State<SplashView> createState() => _SplashViewState();
 }
 
-class _SplashScreenState extends State<SplashScreen> {
+class _SplashViewState extends State<SplashView> {
   @override
   void initState() {
     super.initState();
     Timer(const Duration(seconds: 3), () {
       Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => const OnBoarding1()),
+        MaterialPageRoute(builder: (context) =>  OnBoarding()),
       );
     });
   }
