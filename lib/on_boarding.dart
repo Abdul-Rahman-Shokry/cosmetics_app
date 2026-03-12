@@ -1,4 +1,5 @@
-import 'package:cosmetics_app/views/login/login.dart';
+import 'package:cosmetics_app/core/logic/helper_method.dart';
+import 'package:cosmetics_app/views/auth/login.dart';
 import 'package:flutter/material.dart';
 
 class OnBoarding extends StatefulWidget {
@@ -14,13 +15,13 @@ class _OnBoardingState extends State<OnBoarding> {
       image: "assets/images/on_boarding1.png",
       title: "WELCOME!",
       subTitle:
-      "Makeup has the power to transform your mood and empowers you to be a more confident person.",
+          "Makeup has the power to transform your mood and empowers you to be a more confident person.",
     ),
     _Model(
       image: "assets/images/on_boarding2.png",
       title: "SEARCH & PICK",
       subTitle:
-      "We have dedicated set of products and routines hand picked for every skin type.",
+          "We have dedicated set of products and routines hand picked for every skin type.",
     ),
     _Model(
       image: "assets/images/on_boarding3.png",
@@ -46,23 +47,19 @@ class _OnBoardingState extends State<OnBoarding> {
                   alignment: Alignment.topRight,
                   child: TextButton(
                     onPressed: () {
-                      Navigator.pushAndRemoveUntil(
-                          context, MaterialPageRoute(builder: (context) => Login(),),
-                          (route) => false,);
+                      goTo(page: Login(), canPop: false);
                     },
                     child: const Text(
                       "Skip",
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
-                        color: Colors
-                            .grey, // A good subtle color for a skip button
+                        color: Colors.grey,
                       ),
                     ),
                   ),
                 ),
 
-              // 4. Expanded takes up the rest of the screen and centers its content
               Expanded(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -91,45 +88,42 @@ class _OnBoardingState extends State<OnBoarding> {
 
                     isLast
                         ? ElevatedButton(
-                      onPressed: () {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                Login(),
-                          ),
-                        );
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Color(0xff434C6D),
-                      ),
-                      child: Text(
-                        "let's start!",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    )
+                            onPressed: () {
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => Login(),
+                                ),
+                              );
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Color(0xff434C6D),
+                            ),
+                            child: Text(
+                              "let's start!",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          )
                         : IconButton(
-                      onPressed: () {
-                        currentIndex++;
-                        setState(() {
-
-                        });
-                      },
-                      icon: Icon(
-                        Icons.arrow_forward_ios_sharp,
-                        color: Colors.white,
-                      ),
-                      style: IconButton.styleFrom(
-                        iconSize: 30,
-                        backgroundColor: Color(0xff434C6D),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
-                    ),
+                            onPressed: () {
+                              currentIndex++;
+                              setState(() {});
+                            },
+                            icon: Icon(
+                              Icons.arrow_forward_ios_sharp,
+                              color: Colors.white,
+                            ),
+                            style: IconButton.styleFrom(
+                              iconSize: 30,
+                              backgroundColor: Color(0xff434C6D),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                          ),
                   ],
                 ),
               ),

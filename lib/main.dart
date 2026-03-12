@@ -1,9 +1,9 @@
-import 'package:cosmetics_app/onboarding/on_boarding_1.dart';
-import 'package:cosmetics_app/onboarding/on_boarding_2.dart';
-import 'package:cosmetics_app/onboarding/on_boarding_3.dart';
-import 'package:cosmetics_app/onboarding/splash_screen.dart';
+import 'package:cosmetics_app/views/auth/login.dart';
+import 'package:cosmetics_app/on_boarding.dart';
+import 'package:cosmetics_app/splash.dart';
 import 'package:flutter/material.dart';
-import 'onboarding/splash_screen.dart';
+
+import 'core/logic/helper_method.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,7 +17,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(fontFamily: 'LexandPeta-Light'),
       debugShowCheckedModeBanner: false,
-      home: SplashScreen(),
+      home: SplashView(),
+      navigatorKey: navKey,
     );
   }
 }
