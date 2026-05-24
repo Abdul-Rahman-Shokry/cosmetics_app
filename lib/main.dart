@@ -1,8 +1,7 @@
-import 'package:cosmetics_app/views/auth/login.dart';
-import 'package:cosmetics_app/on_boarding.dart';
+import 'package:cosmetics_app/core/utils/app_colors.dart';
 import 'package:cosmetics_app/splash.dart';
+import 'package:cosmetics_app/views/auth/login.dart';
 import 'package:flutter/material.dart';
-
 import 'core/logic/helper_method.dart';
 
 void main() {
@@ -15,9 +14,23 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(fontFamily: 'LexandPeta-Light'),
+      theme: ThemeData(
+          fontFamily: 'Montserrat',
+          textTheme: TextTheme(
+            displayLarge: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+              color: AppColors.primaryText,
+            ),
+            bodyMedium: TextStyle(
+              fontSize: 14,
+              color: AppColors.secondaryText,
+            ),
+          ),
+      ),
       debugShowCheckedModeBanner: false,
-      home: SplashView(),
+      // home: SplashView(),
+      home: Login(),
       navigatorKey: navKey,
     );
   }

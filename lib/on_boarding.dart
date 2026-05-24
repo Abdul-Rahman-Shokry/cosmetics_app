@@ -1,9 +1,10 @@
 import 'package:cosmetics_app/core/logic/helper_method.dart';
+import 'package:cosmetics_app/core/utils/app_colors.dart';
 import 'package:cosmetics_app/views/auth/login.dart';
 import 'package:flutter/material.dart';
 
 class OnBoarding extends StatefulWidget {
-  OnBoarding({super.key});
+  const OnBoarding({super.key});
 
   @override
   State<OnBoarding> createState() => _OnBoardingState();
@@ -16,17 +17,23 @@ class _OnBoardingState extends State<OnBoarding> {
       title: "WELCOME!",
       subTitle:
           "Makeup has the power to transform your mood and empowers you to be a more confident person.",
+      width: 383.68,
+      height: 259.6,
     ),
     _Model(
       image: "assets/images/on_boarding2.png",
       title: "SEARCH & PICK",
       subTitle:
           "We have dedicated set of products and routines hand picked for every skin type.",
+      width: 314.8,
+      height: 288.08,
     ),
     _Model(
       image: "assets/images/on_boarding3.png",
-      title: "PUCH NOTIFICATIONS",
+      title: "PUSH NOTIFICATIONS",
       subTitle: "Allow notifications for new makeup & cosmetics offers.",
+      width: 253,
+      height: 253,
     ),
   ];
   int currentIndex = 0;
@@ -42,45 +49,53 @@ class _OnBoardingState extends State<OnBoarding> {
           padding: EdgeInsets.symmetric(horizontal: 40),
           child: Column(
             children: [
-              if (!isLast)
-                Align(
-                  alignment: Alignment.topRight,
-                  child: TextButton(
-                    onPressed: () {
-                      goTo(page: Login(), canPop: false);
-                    },
-                    child: const Text(
-                      "Skip",
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.grey,
+              Visibility(
+                visible: !isLast,
+                maintainSize: true,
+                maintainAnimation: true,
+                maintainState: true,
+                child: Align(
+                    alignment: Alignment.topRight,
+                    child: TextButton(
+                      onPressed: () {
+                        goTo(page: Login(), canPop: false);
+                      },
+                      child: Text(
+                        "Skip",
+                        style: Theme.of(context).textTheme.displayLarge?.copyWith(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16,
+                        ),
                       ),
                     ),
                   ),
-                ),
+              ),
 
               Expanded(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Image.asset(currentModel.image, width: 300, height: 300),
+                    Image.asset(currentModel.image, width: currentModel.width, height: currentModel.height),
                     const SizedBox(height: 20),
                     Text(
                       currentModel.title,
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
+                      style: Theme.of(context,).textTheme.displayLarge?.copyWith(
                         fontSize: 16,
+                        fontFamily: 'Segoe-UI',
                       ),
                     ),
                     const SizedBox(height: 20),
                     // Added Padding and TextAlign to make the long text look much better
-                    Text(
-                      currentModel.subTitle,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w400,
+                    SizedBox(
+                      width: 308,
+                      child: Text(
+                        currentModel.subTitle,
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context).textTheme.displayLarge?.copyWith(
+                          fontSize: 16,
+                          fontFamily: 'Segoe-UI',
+                          fontWeight: FontWeight.w400,
+                        ),
                       ),
                     ),
                     // Pushes the content slightly up so it's not perfectly centered mathematically, which often looks better visually
@@ -97,7 +112,11 @@ class _OnBoardingState extends State<OnBoarding> {
                               );
                             },
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Color(0xff434C6D),
+                              backgroundColor: AppColors.primaryText,
+                              fixedSize: Size(268, 65),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(60),
+                              ),
                             ),
                             child: Text(
                               "let's start!",
@@ -118,9 +137,9 @@ class _OnBoardingState extends State<OnBoarding> {
                             ),
                             style: IconButton.styleFrom(
                               iconSize: 30,
-                              backgroundColor: Color(0xff434C6D),
+                              backgroundColor: AppColors.primaryText,
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
+                                borderRadius: BorderRadius.circular(8),
                               ),
                             ),
                           ),
@@ -137,6 +156,13 @@ class _OnBoardingState extends State<OnBoarding> {
 
 class _Model {
   final String image, title, subTitle;
+  final double width, height;
 
-  _Model({required this.image, required this.title, required this.subTitle});
+  _Model({
+    required this.image,
+    required this.title,
+    required this.subTitle,
+    required this.width,
+    required this.height,
+  });
 }

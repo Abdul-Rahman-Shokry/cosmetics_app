@@ -35,16 +35,21 @@ class _SplashViewState extends State<SplashView> {
               fit: BoxFit.contain,
             ),
             const SizedBox(height: 20),
-            const Text(
-              'AVON',
-              style: TextStyle(
-                fontSize: 50,
-                letterSpacing: 15,
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
+            Text(
+              'COSMATICS',
+              style: Theme.of(context).textTheme.displayLarge?.copyWith(
+                fontSize: 15,
+                letterSpacing: 15 * 0.30,
+                fontFamily: 'Inter',
               ),
             ),
-            Text('The company for woman'),
+            const SizedBox(height: 7.06),
+            Text(
+              'The company for woman',
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ],
         ),
       ),
