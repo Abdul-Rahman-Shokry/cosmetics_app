@@ -1,13 +1,14 @@
 import 'package:cosmetics_app/core/utils/app_colors.dart';
 import 'package:cosmetics_app/core/widgets/auth_button.dart';
+import 'package:cosmetics_app/views/auth/presentation/register_screen.dart';
 import 'package:cosmetics_app/views/home/presentation/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'cubit/login_cubit.dart';
-import '../../core/logic/helper_method.dart';
+import '../cubit/login_cubit.dart';
+import '../../../core/logic/helper_method.dart';
 
-class Login extends StatelessWidget {
-  const Login({super.key});
+class LoginScreen extends StatelessWidget {
+  const LoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -209,7 +210,7 @@ class Login extends StatelessWidget {
                           ),
                           GestureDetector(
                             onTap: () {
-                              showMsg("ToDo ...");
+                              goTo(page: RegisterView(), canPop: true);
                             },
                             child: Text(
                               "Register",

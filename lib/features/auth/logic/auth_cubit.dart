@@ -1,27 +1,27 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import '../../../core/models/country_model.dart';
+import '../data/models/country_model.dart';
 
-abstract class LoginState {}
+abstract class AuthState {}
 
-class LoginInitial extends LoginState {}
+class LoginInitial extends AuthState {}
 
-class LoginLoading extends LoginState {}
+class LoginLoading extends AuthState {}
 
-class LoginSuccess extends LoginState {}
+class LoginSuccess extends AuthState {}
 
-class LoginError extends LoginState {
+class LoginError extends AuthState {
   final String message;
 
   LoginError(this.message);
 }
 
-class CountriesLoading extends LoginState {}
+class CountriesLoading extends AuthState {}
 
-class CountriesSuccess extends LoginState {}
+class CountriesSuccess extends AuthState {}
 
-class LoginCubit extends Cubit<LoginState> {
+class LoginCubit extends Cubit<AuthState> {
   LoginCubit() : super(LoginInitial());
 
   final Dio dio = Dio(BaseOptions(baseUrl: "https://cosmatics.growfet.com"));
