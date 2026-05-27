@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../utils/app_colors.dart';
+import '../constants/app_colors.dart';
 
 class SharedAuthButton extends StatelessWidget {
   final String text;

@@ -1,8 +1,8 @@
-import 'package:cosmetics_app/core/utils/app_colors.dart';
+import 'package:cosmetics_app/core/constants/app_colors.dart';
+import 'package:cosmetics_app/features/auth/presentation/register_screen.dart';
 import 'package:cosmetics_app/splash.dart';
-import 'package:cosmetics_app/views/auth/login.dart';
 import 'package:flutter/material.dart';
-import 'core/logic/helper_method.dart';
+import 'core/utils/helper_method.dart';
 
 void main() {
   runApp(const MyApp());
@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
       ),
       debugShowCheckedModeBanner: false,
       // home: SplashView(),
-      home: Login(),
+      home: RegisterScreen(),
       navigatorKey: navKey,
     );
   }

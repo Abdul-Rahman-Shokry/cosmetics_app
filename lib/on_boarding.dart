@@ -1,6 +1,6 @@
-import 'package:cosmetics_app/core/logic/helper_method.dart';
-import 'package:cosmetics_app/core/utils/app_colors.dart';
-import 'package:cosmetics_app/views/auth/login.dart';
+import 'package:cosmetics_app/core/utils/helper_method.dart';
+import 'package:cosmetics_app/core/constants/app_colors.dart';
+import 'package:cosmetics_app/features/auth/presentation/login_screen.dart';
 import 'package:flutter/material.dart';
 
 class OnBoarding extends StatefulWidget {
@@ -58,7 +58,7 @@ class _OnBoardingState extends State<OnBoarding> {
                     alignment: Alignment.topRight,
                     child: TextButton(
                       onPressed: () {
-                        goTo(page: Login(), canPop: false);
+                        goTo(page: LoginScreen(), canPop: false);
                       },
                       child: Text(
                         "Skip",
@@ -107,7 +107,7 @@ class _OnBoardingState extends State<OnBoarding> {
                               Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => Login(),
+                                  builder: (context) => LoginScreen(),
                                 ),
                               );
                             },
