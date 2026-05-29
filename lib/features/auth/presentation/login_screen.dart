@@ -23,7 +23,11 @@ class LoginScreen extends StatelessWidget {
               child: BlocConsumer<LoginCubit, AuthState>(
                 listener: (context, state) {
                   if (state is LoginError) {
-                    showMsg(state.message);
+                    // if (state.message ==
+                    //     "Account not verified. Please verify your phone number first.") {
+                    //   goTo(page: VerifyCode(), canPop: true);
+                  showMsg(state.message);
+
                   } else if (state is LoginSuccess) {
                     showMsg("Login successful!");
                     goTo(page: HomeScreen(), canPop: false);
@@ -60,7 +64,9 @@ class LoginScreen extends StatelessWidget {
                           children: [
                             Container(
                               height: 46.06,
-                              padding: const EdgeInsets.symmetric(horizontal: 10),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 10,
+                              ),
                               decoration: BoxDecoration(
                                 border: Border.all(
                                   width: 1,
@@ -145,9 +151,10 @@ class LoginScreen extends StatelessWidget {
                                 context,
                               ).textTheme.bodyMedium?.copyWith(fontSize: 12),
                               counter: SizedBox.shrink(),
-                              floatingLabelBehavior: FloatingLabelBehavior.never,
+                              floatingLabelBehavior:
+                                  FloatingLabelBehavior.never,
                               suffixIcon: GestureDetector(
-                                onTap: (){
+                                onTap: () {
                                   cubit.togglePasswordVisibility();
                                 },
                                 child: Padding(
@@ -175,7 +182,7 @@ class LoginScreen extends StatelessWidget {
                                 borderSide: BorderSide(
                                   color: AppColors.border,
                                   width: 1,
-                                ),
+                                  ),
                               ),
                             ),
                           ),
@@ -207,7 +214,7 @@ class LoginScreen extends StatelessWidget {
                             ? const CircularProgressIndicator()
                             : SharedAuthButton(
                                 text: "Login",
-                                onPressed: (){
+                                onPressed: () {
                                   cubit.login();
                                 },
                               ),
@@ -219,9 +226,9 @@ class LoginScreen extends StatelessWidget {
                           children: [
                             Text(
                               "Don't have an account? ",
-                              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                fontSize: 12,
-                              ),
+                              style: Theme.of(
+                                context,
+                              ).textTheme.bodyMedium?.copyWith(fontSize: 12),
                             ),
                             GestureDetector(
                               onTap: () {
@@ -229,16 +236,16 @@ class LoginScreen extends StatelessWidget {
                               },
                               child: Text(
                                 "Register",
-                                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                  fontSize: 12,
-                                  color: AppColors.primaryButton,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                                style: Theme.of(context).textTheme.bodyMedium
+                                    ?.copyWith(
+                                      fontSize: 12,
+                                      color: AppColors.primaryButton,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                               ),
                             ),
                           ],
                         ),
-
                       ],
                     ),
                   );

@@ -1,6 +1,6 @@
 import 'package:cosmetics_app/features/auth/logic/auth_cubit.dart';
 import 'package:cosmetics_app/features/auth/presentation/login_screen.dart';
-import 'package:cosmetics_app/features/auth/presentation/verify_code.dart';
+import 'package:cosmetics_app/features/auth/presentation/verify_code_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../../../core/constants/app_colors.dart';
@@ -25,9 +25,21 @@ class RegisterScreen extends StatelessWidget {
                 listener: (context, state) {
                   if (state is RegisterError) {
                     showMsg(state.message);
+
                   } else if (state is RegisterStepOneSuccess) {
                     showMsg("Register successful!");
-                    goTo(page: VerifyCode(), canPop: false);
+
+                    final cubit = context.read<RegisterCubit>();
+
+                    goTo(
+                      page: VerifyCode(
+                        countryCode: cubit.selectedCountry!.code,
+                        phoneNumber: cubit.phoneController.text,
+                        email: cubit.emailController.text,
+                        token: state.token,
+                      ),
+                      canPop: true,
+                    );
                   }
                 },
 

@@ -1,5 +1,4 @@
 import 'package:cosmetics_app/core/constants/app_colors.dart';
-import 'package:cosmetics_app/features/auth/presentation/register_screen.dart';
 import 'package:cosmetics_app/splash.dart';
 import 'package:flutter/material.dart';
 import 'core/utils/helper_method.dart';
@@ -29,8 +28,8 @@ class MyApp extends StatelessWidget {
           ),
       ),
       debugShowCheckedModeBanner: false,
-      // home: SplashView(),
-      home: RegisterScreen(),
+      home: SplashView(),
+      // home: VerifyCode(),
       navigatorKey: navKey,
     );
   }

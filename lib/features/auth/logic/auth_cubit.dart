@@ -24,7 +24,11 @@ class RegisterInitial extends AuthState {}
 
 class RegisterLoading extends AuthState {}
 
-class RegisterStepOneSuccess extends AuthState {}
+class RegisterStepOneSuccess extends AuthState {
+  final String token;
+
+  RegisterStepOneSuccess({required this.token});
+}
 
 class RegisterStepTwoSuccess extends AuthState {}
 
@@ -32,6 +36,19 @@ class RegisterError extends AuthState {
   final String message;
 
   RegisterError(this.message);
+}
+
+// Verify code states
+class VerifyCodeInitial extends AuthState {}
+
+class VerifyCodeLoading extends AuthState {}
+
+class VerifyCodeSuccess extends AuthState {}
+
+class VerifyCodeError extends AuthState {
+  final String message;
+
+  VerifyCodeError(this.message);
 }
 
 // Shared states
@@ -103,8 +120,13 @@ class LoginCubit extends Cubit<AuthState> {
       log("Token: $token");
 
       emit(LoginSuccess());
-    } on DioException {
-      emit(LoginError("Invalid login credentials"));
+    } on DioException catch (e) {
+      if (e.type == DioExceptionType.connectionTimeout ||
+          e.type == DioExceptionType.receiveTimeout) {
+        emit(LoginError("Connection timed out. Please try again."));
+      } else if (e.response != null) {
+        emit(LoginError(e.response?.data['message'] ?? "Unknown Error"));
+      }
     }
   }
 }
@@ -185,7 +207,7 @@ class RegisterCubit extends Cubit<AuthState> {
 
       log("Token: $message");
 
-      emit(RegisterStepOneSuccess());
+      emit(RegisterStepOneSuccess(token: message));
     } on DioException catch (e) {
       if (e.type == DioExceptionType.connectionTimeout ||
           e.type == DioExceptionType.receiveTimeout) {
@@ -193,6 +215,57 @@ class RegisterCubit extends Cubit<AuthState> {
       } else if (e.response != null) {
         emit(RegisterError(e.response?.data['message'] ?? "Unknown Error"));
       }
+    }
+  }
+}
+
+class VerifyCodeCubit extends Cubit<AuthState> {
+  VerifyCodeCubit() : super(VerifyCodeInitial());
+
+  final Dio dio = Dio(
+    BaseOptions(
+      baseUrl: "https://cosmatics.growfet.com",
+      connectTimeout: const Duration(seconds: 10),
+      receiveTimeout: const Duration(seconds: 10),
+    ),
+  );
+
+  final otpController = TextEditingController();
+
+  Future<void> verifyCode({ required String countryCode, required String phoneNumber, required String token,}) async {
+    final code = otpController.text;
+
+    if (code.length != 4) {
+      emit(VerifyCodeError("Please enter the full code"));
+      return;
+    }
+
+    emit(VerifyCodeLoading());
+
+    try {
+      final response = await dio.post(
+        '/api/Auth/verify-otp',
+        data: {
+          "countryCode": countryCode,
+          "phoneNumber": phoneNumber,
+          "otpCode": code,
+        },
+        options: Options(headers: {"Authorization": "Bearer $token"}),
+      );
+
+      final message = response.data['message'];
+      log(message.toString());
+
+      emit(VerifyCodeSuccess());
+    } on DioException catch (e) {
+      if (e.type == DioExceptionType.connectionTimeout ||
+          e.type == DioExceptionType.receiveTimeout) {
+        emit(VerifyCodeError("Connection timed out. Please try again."));
+      } else if (e.response != null) {
+        emit(VerifyCodeError(e.response?.data['message'] ?? "Unknown Error"));
+      }
+    } catch (e) {
+      emit(VerifyCodeError(e.toString()));
     }
   }
 }
