@@ -4,6 +4,7 @@ import 'package:cosmetics_app/core/widgets/auth_button.dart';
 import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter/gestures.dart';
 import '../../home/presentation/home_screen.dart';
 import '../logic/auth_cubit.dart';
 
@@ -30,7 +31,6 @@ class VerifyCode extends StatelessWidget {
         context,
       ).textTheme.displayLarge?.copyWith(fontSize: 16),
       decoration: BoxDecoration(
-        // color: Colors.grey,
         border: Border.all(color: Colors.grey, width: 1),
         borderRadius: BorderRadius.circular(8),
       ),
@@ -45,7 +45,7 @@ class VerifyCode extends StatelessWidget {
     );
 
     return BlocProvider(
-      create: (context) => VerifyCodeCubit(),
+      create: (context) => VerifyCodeCubit()..startTimer(),
 
       child: Scaffold(
         body: SafeArea(
@@ -54,17 +54,24 @@ class VerifyCode extends StatelessWidget {
             child: Center(
               child: BlocConsumer<VerifyCodeCubit, AuthState>(
                 listener: (context, state) {
-                  if (state is VerifyCodeError){
+                  if (state is VerifyCodeError) {
                     showMsg(state.message);
-
-                  } else if (state is VerifyCodeSuccess){
+                  } else if (state is VerifyCodeSuccess) {
                     showMsg("Login successful!");
                     goTo(page: HomeScreen(), canPop: false);
+                  }
+
+                  if(state is resendOTPError){
+                    showMsg(state.message);
+                  } else if (state is resendOTPSuccess){
+                    showMsg(state.message);
                   }
                 },
 
                 builder: (context, state) {
                   final cubit = context.read<VerifyCodeCubit>();
+
+                  final String displayTime = "0:${cubit.remainingSeconds.toString().padLeft(2, '0')}";
 
                   return SingleChildScrollView(
                     child: Column(
@@ -135,16 +142,40 @@ class VerifyCode extends StatelessWidget {
                                       fontWeight: FontWeight.w500,
                                     ),
                                 children: [
-                                  TextSpan(
+                                  state is resendOTPLoading
+                                      ? WidgetSpan(
+                                    alignment: PlaceholderAlignment.middle,
+                                    child: const SizedBox(
+                                      height: 12,
+                                      width: 12,
+                                      child: CircularProgressIndicator(
+                                        strokeWidth: 2,
+                                        color: AppColors.primaryButton,
+                                      ),
+                                    ),
+                                  )
+                                      : TextSpan(
                                     text: "Resend",
+                                    recognizer: cubit.remainingSeconds > 0
+                                        ? null
+                                        : (TapGestureRecognizer()
+                                      ..onTap = () {
+                                        cubit.resendOTP(
+                                          countryCode: countryCode,
+                                          phoneNumber: phoneNumber,
+                                          token: token,
+                                        );
+                                      }),
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyMedium
                                         ?.copyWith(
-                                          fontSize: 12,
-                                          color: AppColors.primaryButton,
-                                          fontWeight: FontWeight.w500,
-                                        ),
+                                      fontSize: 12,
+                                      color: cubit.remainingSeconds > 0
+                                          ? Colors.grey
+                                          : AppColors.primaryButton,
+                                      fontWeight: FontWeight.w500,
+                                    ),
                                   ),
                                 ],
                               ),
@@ -152,7 +183,7 @@ class VerifyCode extends StatelessWidget {
 
                             const Spacer(),
 
-                            Text("0:36"),
+                            if (cubit.remainingSeconds > 0) Text(displayTime),
                           ],
                         ),
 

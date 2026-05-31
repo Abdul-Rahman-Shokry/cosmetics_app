@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import '../data/models/country_model.dart';
 import 'dart:developer';
+import 'dart:async';
 
 abstract class AuthState {}
 
@@ -49,6 +50,26 @@ class VerifyCodeError extends AuthState {
   final String message;
 
   VerifyCodeError(this.message);
+}
+
+class resendOTPLoading extends AuthState {}
+
+class resendOTPSuccess extends AuthState {
+  final String message;
+
+  resendOTPSuccess(this.message);
+}
+
+class resendOTPError extends AuthState {
+  final String message;
+
+  resendOTPError(this.message);
+}
+
+class ResendOTPTimerUpdate extends AuthState {
+  final int remainingSeconds;
+
+  ResendOTPTimerUpdate(this.remainingSeconds);
 }
 
 // Shared states
@@ -232,7 +253,35 @@ class VerifyCodeCubit extends Cubit<AuthState> {
 
   final otpController = TextEditingController();
 
-  Future<void> verifyCode({ required String countryCode, required String phoneNumber, required String token,}) async {
+  Timer? _timer;
+  int remainingSeconds = 0;
+
+  void startTimer() {
+    remainingSeconds = 30;
+    emit(ResendOTPTimerUpdate(remainingSeconds));
+
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (remainingSeconds > 0) {
+        remainingSeconds--;
+        emit(ResendOTPTimerUpdate(remainingSeconds));
+      } else {
+        _timer?.cancel();
+        emit(VerifyCodeInitial());
+      }
+    });
+  }
+
+  @override
+  Future<void> close() {
+    _timer?.cancel();
+    return super.close();
+  }
+
+  Future<void> verifyCode({
+    required String countryCode,
+    required String phoneNumber,
+    required String token,
+  }) async {
     final code = otpController.text;
 
     if (code.length != 4) {
@@ -266,6 +315,44 @@ class VerifyCodeCubit extends Cubit<AuthState> {
       }
     } catch (e) {
       emit(VerifyCodeError(e.toString()));
+    }
+  }
+
+  Future<void> resendOTP({
+    required String countryCode,
+    required String phoneNumber,
+    required String token,
+  }) async {
+
+    if (remainingSeconds > 0) return;
+
+    emit(resendOTPLoading());
+
+    try {
+      final response = await dio.post(
+        '/api/Auth/resend-otp',
+        data: {"countryCode": countryCode, "phoneNumber": phoneNumber},
+        options: Options(headers: {"Authorization": "Bearer $token"}),
+      );
+
+      final message = response.data['message'];
+      log(message.toString());
+
+      otpController.clear();
+
+      emit(resendOTPSuccess(message));
+
+      startTimer();
+
+    } on DioException catch (e) {
+      if (e.type == DioExceptionType.connectionTimeout ||
+          e.type == DioExceptionType.receiveTimeout) {
+        emit(resendOTPError("Connection timed out. Please try again."));
+      } else if (e.response != null) {
+        emit(resendOTPError(e.response?.data['message'] ?? "Unknown Error"));
+      }
+    } catch (e) {
+      emit(resendOTPError(e.toString()));
     }
   }
 }
