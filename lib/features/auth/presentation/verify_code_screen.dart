@@ -1,6 +1,7 @@
 import 'package:cosmetics_app/core/constants/app_colors.dart';
 import 'package:cosmetics_app/core/utils/helper_method.dart';
 import 'package:cosmetics_app/core/widgets/auth_button.dart';
+import 'package:cosmetics_app/features/auth/presentation/reset_password_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,15 +12,17 @@ import '../logic/auth_cubit.dart';
 class VerifyCode extends StatelessWidget {
   final String countryCode;
   final String phoneNumber;
-  final String email;
-  final String token;
+  final String? email;
+  final String? token;
+  final bool isForgetPasswordFlow;
 
   const VerifyCode({
     super.key,
     required this.countryCode,
     required this.phoneNumber,
-    required this.email,
-    required this.token,
+    this.email,
+    this.token,
+    this.isForgetPasswordFlow = false,
   });
 
   @override
@@ -57,13 +60,20 @@ class VerifyCode extends StatelessWidget {
                   if (state is VerifyCodeError) {
                     showMsg(state.message);
                   } else if (state is VerifyCodeSuccess) {
-                    showMsg("Login successful!");
-                    goTo(page: HomeScreen(), canPop: false);
+                    if (isForgetPasswordFlow) {
+                      goTo(page: ResetPasswordScreen(
+                        countryCode: countryCode,
+                        phoneNumber: phoneNumber,
+                      ), canPop: false);
+                    } else {
+                      showMsg("Login successful!");
+                      goTo(page: HomeScreen(), canPop: false);
+                    }
                   }
 
-                  if(state is resendOTPError){
+                  if(state is ResendOTPError){
                     showMsg(state.message);
-                  } else if (state is resendOTPSuccess){
+                  } else if (state is ResendOTPSuccess){
                     showMsg(state.message);
                   }
                 },
@@ -91,17 +101,18 @@ class VerifyCode extends StatelessWidget {
                         Text.rich(
                           textAlign: TextAlign.center,
                           TextSpan(
-                            text:
-                                "We just sent a 4-digit verification code to your email ",
+                            text: email != null
+                                ? "We just sent a 4-digit verification code to your email "
+                                : "We just sent a 4-digit verification code to your registered account. ",
                             style: Theme.of(context).textTheme.bodyMedium,
                             children: [
-                              TextSpan(
-                                text: email,
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              TextSpan(
-                                text:
-                                    " Enter the code in the box below to continue.",
+                              if (email != null)
+                                TextSpan(
+                                  text: "$email.",
+                                  style: const TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                              const TextSpan(
+                                text: " Enter the code in the box below to continue.",
                               ),
                             ],
                           ),
@@ -142,7 +153,7 @@ class VerifyCode extends StatelessWidget {
                                       fontWeight: FontWeight.w500,
                                     ),
                                 children: [
-                                  state is resendOTPLoading
+                                  state is ResendOTPLoading
                                       ? WidgetSpan(
                                     alignment: PlaceholderAlignment.middle,
                                     child: const SizedBox(

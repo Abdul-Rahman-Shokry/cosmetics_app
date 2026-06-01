@@ -1,8 +1,8 @@
 import 'package:cosmetics_app/core/constants/app_colors.dart';
+import 'package:cosmetics_app/features/auth/presentation/forget_password_screen.dart';
 import 'package:cosmetics_app/splash.dart';
 import 'package:flutter/material.dart';
 import 'core/utils/helper_method.dart';
-import 'features/auth/presentation/verify_code_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -30,14 +30,7 @@ class MyApp extends StatelessWidget {
       ),
       debugShowCheckedModeBanner: false,
       home: SplashView(),
-
-      // home: VerifyCode(
-      //   countryCode: "+20",
-      //   phoneNumber: "...",
-      //   email: "...",
-      //   token: "...",
-      // ),
-
+      // home: ForgetPassword(),
       navigatorKey: navKey,
     );
   }

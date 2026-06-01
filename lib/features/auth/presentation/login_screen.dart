@@ -1,5 +1,6 @@
 import 'package:cosmetics_app/core/constants/app_colors.dart';
 import 'package:cosmetics_app/core/widgets/auth_button.dart';
+import 'package:cosmetics_app/features/auth/presentation/forget_password_screen.dart';
 import 'package:cosmetics_app/features/auth/presentation/register_screen.dart';
 import 'package:cosmetics_app/features/home/presentation/home_screen.dart';
 import 'package:flutter/material.dart';
@@ -194,7 +195,7 @@ class LoginScreen extends StatelessWidget {
                           alignment: Alignment.centerRight,
                           child: TextButton(
                             onPressed: () {
-                              showMsg("ToDo ...");
+                              goTo(page: ForgetPassword(), canPop: true);
                             },
                             child: Text(
                               "Forget Password?",

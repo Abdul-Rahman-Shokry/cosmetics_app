@@ -52,24 +52,50 @@ class VerifyCodeError extends AuthState {
   VerifyCodeError(this.message);
 }
 
-class resendOTPLoading extends AuthState {}
+class ResendOTPLoading extends AuthState {}
 
-class resendOTPSuccess extends AuthState {
+class ResendOTPSuccess extends AuthState {
   final String message;
 
-  resendOTPSuccess(this.message);
+  ResendOTPSuccess(this.message);
 }
 
-class resendOTPError extends AuthState {
+class ResendOTPError extends AuthState {
   final String message;
 
-  resendOTPError(this.message);
+  ResendOTPError(this.message);
 }
 
 class ResendOTPTimerUpdate extends AuthState {
   final int remainingSeconds;
 
   ResendOTPTimerUpdate(this.remainingSeconds);
+}
+
+// Forget Password states
+class ForgetPasswordInitial extends AuthState {}
+
+class ForgetPasswordLoading extends AuthState {}
+
+class ForgetPasswordSuccess extends AuthState {}
+
+class ForgetPasswordError extends AuthState {
+  final String message;
+
+  ForgetPasswordError(this.message);
+}
+
+// Reset password states
+class ResetPasswordInitial extends AuthState {}
+
+class ResetPasswordLoading extends AuthState {}
+
+class ResetPasswordSuccess extends AuthState {}
+
+class ResetPasswordError extends AuthState {
+  final String message;
+
+  ResetPasswordError(this.message);
 }
 
 // Shared states
@@ -280,7 +306,7 @@ class VerifyCodeCubit extends Cubit<AuthState> {
   Future<void> verifyCode({
     required String countryCode,
     required String phoneNumber,
-    required String token,
+    String? token,
   }) async {
     final code = otpController.text;
 
@@ -299,7 +325,9 @@ class VerifyCodeCubit extends Cubit<AuthState> {
           "phoneNumber": phoneNumber,
           "otpCode": code,
         },
-        options: Options(headers: {"Authorization": "Bearer $token"}),
+        options: token != null
+            ? Options(headers: {"Authorization": "Bearer $token"})
+            : null,
       );
 
       final message = response.data['message'];
@@ -321,18 +349,19 @@ class VerifyCodeCubit extends Cubit<AuthState> {
   Future<void> resendOTP({
     required String countryCode,
     required String phoneNumber,
-    required String token,
+    String? token,
   }) async {
-
     if (remainingSeconds > 0) return;
 
-    emit(resendOTPLoading());
+    emit(ResendOTPLoading());
 
     try {
       final response = await dio.post(
         '/api/Auth/resend-otp',
         data: {"countryCode": countryCode, "phoneNumber": phoneNumber},
-        options: Options(headers: {"Authorization": "Bearer $token"}),
+        options: token != null
+            ? Options(headers: {"Authorization": "Bearer $token"})
+            : null,
       );
 
       final message = response.data['message'];
@@ -340,19 +369,137 @@ class VerifyCodeCubit extends Cubit<AuthState> {
 
       otpController.clear();
 
-      emit(resendOTPSuccess(message));
+      emit(ResendOTPSuccess(message));
 
       startTimer();
-
     } on DioException catch (e) {
       if (e.type == DioExceptionType.connectionTimeout ||
           e.type == DioExceptionType.receiveTimeout) {
-        emit(resendOTPError("Connection timed out. Please try again."));
+        emit(ResendOTPError("Connection timed out. Please try again."));
       } else if (e.response != null) {
-        emit(resendOTPError(e.response?.data['message'] ?? "Unknown Error"));
+        emit(ResendOTPError(e.response?.data['message'] ?? "Unknown Error"));
       }
     } catch (e) {
-      emit(resendOTPError(e.toString()));
+      emit(ResendOTPError(e.toString()));
+    }
+  }
+}
+
+class ForgetPasswordCubit extends Cubit<AuthState> {
+  ForgetPasswordCubit() : super(ForgetPasswordInitial());
+
+  final Dio dio = Dio(
+    BaseOptions(
+      baseUrl: "https://cosmatics.growfet.com",
+      connectTimeout: const Duration(seconds: 10),
+      receiveTimeout: const Duration(seconds: 10),
+    ),
+  );
+
+  final phoneController = TextEditingController();
+
+  List<CountryModel> countries = [];
+  CountryModel? selectedCountry;
+
+  Future<void> getCountries() async {
+    emit(CountriesLoading());
+    try {
+      final response = await dio.get('/api/Countries');
+      final List data = response.data;
+      countries = data.map((e) => CountryModel.fromJson(e)).toList();
+
+      if (countries.isNotEmpty) {
+        selectedCountry = countries.first;
+      }
+      emit(CountriesSuccess());
+    } catch (e) {
+      emit(ForgetPasswordError("Failed to load countries"));
+    }
+  }
+
+  Future<void> forgetPassword() async {
+    if (phoneController.text.isEmpty || selectedCountry == null) {
+      emit(ForgetPasswordError("Please enter all fields"));
+      return;
+    }
+
+    emit(ForgetPasswordLoading());
+    try {
+      final response = await dio.post(
+        '/api/Auth/forgot-password',
+        data: {
+          "countryCode": selectedCountry!.code,
+          "phoneNumber": phoneController.text,
+        },
+      );
+
+      emit(ForgetPasswordSuccess());
+    } on DioException catch (e) {
+      if (e.type == DioExceptionType.connectionTimeout ||
+          e.type == DioExceptionType.receiveTimeout) {
+        emit(ForgetPasswordError("Connection timed out. Please try again."));
+      } else if (e.response != null) {
+        emit(
+          ForgetPasswordError(e.response?.data['message'] ?? "Unknown Error"),
+        );
+      }
+    }
+  }
+}
+
+class ResetPasswordCubit extends Cubit<AuthState> {
+  ResetPasswordCubit() : super(ResetPasswordInitial());
+
+  final Dio dio = Dio(
+    BaseOptions(
+      baseUrl: "https://cosmatics.growfet.com",
+      connectTimeout: const Duration(seconds: 10),
+      receiveTimeout: const Duration(seconds: 10),
+    ),
+  );
+
+  final newPasswordController = TextEditingController();
+  final confirmPasswordController = TextEditingController();
+
+  bool isPasswordObscured = true;
+
+  void togglePasswordVisibility() {
+    isPasswordObscured = !isPasswordObscured;
+    emit(RegisterInitial());
+  }
+
+  Future<void> resetPassword({
+    required String countryCode,
+    required String phoneNumber,
+  }) async {
+    if (newPasswordController.text.isEmpty ||
+        confirmPasswordController.text.isEmpty) {
+      emit(ResetPasswordError("Please enter all fields"));
+      return;
+    }
+
+    emit(ResetPasswordLoading());
+    try {
+      final response = await dio.post(
+        '/api/Auth/reset-password',
+        data: {
+          "countryCode": countryCode,
+          "phoneNumber": phoneNumber,
+          "newPassword": newPasswordController.text,
+          "confirmPassword": confirmPasswordController.text,
+        },
+      );
+
+      emit(ResetPasswordSuccess());
+    } on DioException catch (e) {
+      if (e.type == DioExceptionType.connectionTimeout ||
+          e.type == DioExceptionType.receiveTimeout) {
+        emit(ResetPasswordError("Connection timed out. Please try again."));
+      } else if (e.response != null) {
+        emit(
+          ResetPasswordError(e.response?.data['message'] ?? "Unknown Error"),
+        );
+      }
     }
   }
 }
