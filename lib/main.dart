@@ -1,6 +1,6 @@
 import 'package:cosmetics_app/core/constants/app_colors.dart';
 import 'package:cosmetics_app/features/auth/presentation/forget_password_screen.dart';
-import 'package:cosmetics_app/splash.dart';
+import 'package:cosmetics_app/features/intro/presentation/splash.dart';
 import 'package:flutter/material.dart';
 import 'core/utils/helper_method.dart';
 
@@ -30,7 +30,6 @@ class MyApp extends StatelessWidget {
       ),
       debugShowCheckedModeBanner: false,
       home: SplashView(),
-      // home: ForgetPassword(),
       navigatorKey: navKey,
     );
   }

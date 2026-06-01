@@ -1,4 +1,3 @@
-import 'package:cosmetics_app/features/auth/logic/auth_cubit.dart';
 import 'package:cosmetics_app/features/auth/presentation/login_screen.dart';
 import 'package:cosmetics_app/features/auth/presentation/verify_code_screen.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +6,8 @@ import '../../../core/constants/app_colors.dart';
 import '../../../core/utils/helper_method.dart';
 import '../../../core/widgets/auth_button.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../logic/auth_state.dart';
+import '../logic/register_cubit.dart';
 
 class RegisterScreen extends StatelessWidget {
   const RegisterScreen({super.key});

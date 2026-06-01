@@ -1,9 +1,10 @@
 import 'package:cosmetics_app/core/utils/helper_method.dart';
-import 'package:cosmetics_app/features/auth/logic/auth_cubit.dart';
 import 'package:cosmetics_app/features/auth/presentation/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import '../logic/auth_state.dart';
+import '../logic/reset_password_cubit.dart';
 
 import '../../../core/constants/app_colors.dart';
 import '../../../core/widgets/auth_button.dart';

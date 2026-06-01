@@ -6,8 +6,9 @@ import 'package:cosmetics_app/features/home/presentation/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import '../logic/auth_cubit.dart';
 import '../../../core/utils/helper_method.dart';
+import '../logic/auth_state.dart';
+import '../logic/login_cubit.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});

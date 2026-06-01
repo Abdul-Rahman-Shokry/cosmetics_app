@@ -7,7 +7,9 @@ import 'package:pinput/pinput.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/gestures.dart';
 import '../../home/presentation/home_screen.dart';
-import '../logic/auth_cubit.dart';
+import '../logic/auth_state.dart';
+import '../logic/verify_code_cubit.dart';
+
 
 class VerifyCode extends StatelessWidget {
   final String countryCode;

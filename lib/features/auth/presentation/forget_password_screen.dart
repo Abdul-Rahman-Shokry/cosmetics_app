@@ -1,11 +1,11 @@
 import 'package:cosmetics_app/core/utils/helper_method.dart';
-import 'package:cosmetics_app/features/auth/logic/auth_cubit.dart';
 import 'package:cosmetics_app/features/auth/presentation/verify_code_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../../../core/constants/app_colors.dart';
 import '../../../core/widgets/auth_button.dart';
+import '../logic/auth_state.dart';
+import '../logic/forget_password_cubit.dart';
 
 class ForgetPassword extends StatelessWidget {
   const ForgetPassword({super.key});
