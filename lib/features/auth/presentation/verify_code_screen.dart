@@ -1,5 +1,6 @@
 import 'package:cosmetics_app/core/constants/app_colors.dart';
-import 'package:cosmetics_app/core/utils/helper_method.dart';
+import 'package:cosmetics_app/core/utils/helper_methods.dart';
+import 'package:cosmetics_app/core/widgets/app_image.dart';
 import 'package:cosmetics_app/core/widgets/auth_button.dart';
 import 'package:cosmetics_app/features/auth/presentation/reset_password_screen.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +17,7 @@ class VerifyCode extends StatelessWidget {
   final String phoneNumber;
   final String? email;
   final String? token;
-  final bool isForgetPasswordFlow;
+  final bool isForgotPasswordFlow;
 
   const VerifyCode({
     super.key,
@@ -24,7 +25,7 @@ class VerifyCode extends StatelessWidget {
     required this.phoneNumber,
     this.email,
     this.token,
-    this.isForgetPasswordFlow = false,
+    this.isForgotPasswordFlow = false,
   });
 
   @override
@@ -62,7 +63,7 @@ class VerifyCode extends StatelessWidget {
                   if (state is VerifyCodeError) {
                     showMsg(state.message);
                   } else if (state is VerifyCodeSuccess) {
-                    if (isForgetPasswordFlow) {
+                    if (isForgotPasswordFlow) {
                       goTo(page: ResetPasswordScreen(
                         countryCode: countryCode,
                         phoneNumber: phoneNumber,
@@ -89,7 +90,7 @@ class VerifyCode extends StatelessWidget {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Image.asset("assets/images/Layer_1_67_x_62.png"),
+                        AppImage("Layer_1_67_x_62.png"),
 
                         const SizedBox(height: 40),
 

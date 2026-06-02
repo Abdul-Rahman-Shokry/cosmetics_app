@@ -1,9 +1,9 @@
+import 'package:cosmetics_app/core/widgets/app_image.dart';
 import 'package:cosmetics_app/features/auth/presentation/login_screen.dart';
 import 'package:cosmetics_app/features/auth/presentation/verify_code_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import '../../../core/constants/app_colors.dart';
-import '../../../core/utils/helper_method.dart';
+import '../../../core/utils/helper_methods.dart';
 import '../../../core/widgets/auth_button.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../logic/auth_state.dart';
@@ -51,7 +51,7 @@ class RegisterScreen extends StatelessWidget {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Image.asset("assets/images/Layer_1_67_x_62.png"),
+                        AppImage("Layer_1_67_x_62.png"),
 
                         const SizedBox(height: 40),
 
@@ -237,10 +237,10 @@ class RegisterScreen extends StatelessWidget {
                                 },
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
-                                  child: SvgPicture.asset(
+                                  child: AppImage(
                                     cubit.isPasswordObscured
-                                        ? 'assets/images/visibility.svg'
-                                        : 'assets/images/visibility_off.svg',
+                                        ? 'visibility.svg'
+                                        : 'visibility_off.svg',
                                   ),
                                 ),
                               ),
@@ -288,10 +288,10 @@ class RegisterScreen extends StatelessWidget {
                                 },
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
-                                  child: SvgPicture.asset(
+                                  child: AppImage(
                                     cubit.isPasswordObscured
-                                        ? 'assets/images/visibility.svg'
-                                        : 'assets/images/visibility_off.svg',
+                                        ? 'visibility.svg'
+                                        : 'visibility_off.svg',
                                   ),
                                 ),
                               ),

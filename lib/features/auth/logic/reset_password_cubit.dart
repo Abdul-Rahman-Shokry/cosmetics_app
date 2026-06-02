@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import '../../../core/network/api_helper.dart';
 import 'auth_state.dart';
 
 class ResetPasswordInitial extends AuthState {}
@@ -17,14 +18,6 @@ class ResetPasswordError extends AuthState {
 
 class ResetPasswordCubit extends Cubit<AuthState> {
   ResetPasswordCubit() : super(ResetPasswordInitial());
-
-  final dio = Dio(
-    BaseOptions(
-      baseUrl: "https://cosmatics.growfet.com",
-      connectTimeout: const Duration(seconds: 10),
-      receiveTimeout: const Duration(seconds: 10),
-    ),
-  );
 
   final newPasswordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
@@ -48,7 +41,7 @@ class ResetPasswordCubit extends Cubit<AuthState> {
 
     emit(ResetPasswordLoading());
     try {
-      final response = await dio.post(
+      final response = await ApiHelper.dio.post(
         '/api/Auth/reset-password',
         data: {
           "countryCode": countryCode,

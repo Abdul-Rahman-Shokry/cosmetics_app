@@ -1,7 +1,9 @@
-import 'package:cosmetics_app/core/utils/helper_method.dart';
+import 'package:cosmetics_app/core/utils/helper_methods.dart';
 import 'package:cosmetics_app/core/constants/app_colors.dart';
 import 'package:cosmetics_app/features/auth/presentation/login_screen.dart';
 import 'package:flutter/material.dart';
+
+import '../../../core/widgets/app_image.dart';
 
 class OnBoarding extends StatefulWidget {
   const OnBoarding({super.key});
@@ -13,7 +15,7 @@ class OnBoarding extends StatefulWidget {
 class _OnBoardingState extends State<OnBoarding> {
   final list = [
     _Model(
-      image: "assets/images/on_boarding1.png",
+      image: "on_boarding1.png",
       title: "WELCOME!",
       subTitle:
           "Makeup has the power to transform your mood and empowers you to be a more confident person.",
@@ -21,7 +23,7 @@ class _OnBoardingState extends State<OnBoarding> {
       height: 259.6,
     ),
     _Model(
-      image: "assets/images/on_boarding2.png",
+      image: "on_boarding2.png",
       title: "SEARCH & PICK",
       subTitle:
           "We have dedicated set of products and routines hand picked for every skin type.",
@@ -29,7 +31,7 @@ class _OnBoardingState extends State<OnBoarding> {
       height: 288.08,
     ),
     _Model(
-      image: "assets/images/on_boarding3.png",
+      image: "on_boarding3.png",
       title: "PUSH NOTIFICATIONS",
       subTitle: "Allow notifications for new makeup & cosmetics offers.",
       width: 253,
@@ -75,7 +77,7 @@ class _OnBoardingState extends State<OnBoarding> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Image.asset(currentModel.image, width: currentModel.width, height: currentModel.height),
+                    AppImage(currentModel.image, width: currentModel.width, height: currentModel.height),
                     const SizedBox(height: 20),
                     Text(
                       currentModel.title,

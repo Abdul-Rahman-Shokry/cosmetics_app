@@ -1,8 +1,8 @@
-import 'package:cosmetics_app/core/utils/helper_method.dart';
+import 'package:cosmetics_app/core/utils/helper_methods.dart';
+import 'package:cosmetics_app/core/widgets/app_image.dart';
 import 'package:cosmetics_app/features/auth/presentation/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import '../logic/auth_state.dart';
 import '../logic/reset_password_cubit.dart';
 
@@ -44,7 +44,7 @@ class ResetPasswordScreen extends StatelessWidget {
                   return Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Image.asset("assets/images/Layer_1_67_x_62.png"),
+                      AppImage("Layer_1_67_x_62.png"),
 
                       const SizedBox(height: 40),
 
@@ -86,10 +86,10 @@ class ResetPasswordScreen extends StatelessWidget {
                               },
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: SvgPicture.asset(
+                                child: AppImage(
                                   cubit.isPasswordObscured
-                                      ? 'assets/images/visibility.svg'
-                                      : 'assets/images/visibility_off.svg',
+                                      ? 'visibility.svg'
+                                      : 'visibility_off.svg',
                                 ),
                               ),
                             ),
@@ -137,10 +137,10 @@ class ResetPasswordScreen extends StatelessWidget {
                               },
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: SvgPicture.asset(
+                                child: AppImage(
                                   cubit.isPasswordObscured
-                                      ? 'assets/images/visibility.svg'
-                                      : 'assets/images/visibility_off.svg',
+                                      ? 'visibility.svg'
+                                      : 'visibility_off.svg',
                                 ),
                               ),
                             ),

@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'dart:developer';
 import 'dart:async';
+import '../../../core/network/api_helper.dart';
 import 'auth_state.dart';
 
 class VerifyCodeInitial extends AuthState {}
@@ -39,14 +40,6 @@ class ResendOTPTimerUpdate extends AuthState {
 
 class VerifyCodeCubit extends Cubit<AuthState> {
   VerifyCodeCubit() : super(VerifyCodeInitial());
-
-  final dio = Dio(
-    BaseOptions(
-      baseUrl: "https://cosmatics.growfet.com",
-      connectTimeout: const Duration(seconds: 10),
-      receiveTimeout: const Duration(seconds: 10),
-    ),
-  );
 
   final otpController = TextEditingController();
 
@@ -89,7 +82,7 @@ class VerifyCodeCubit extends Cubit<AuthState> {
     emit(VerifyCodeLoading());
 
     try {
-      final response = await dio.post(
+      final response = await ApiHelper.dio.post(
         '/api/Auth/verify-otp',
         data: {
           "countryCode": countryCode,
@@ -127,7 +120,7 @@ class VerifyCodeCubit extends Cubit<AuthState> {
     emit(ResendOTPLoading());
 
     try {
-      final response = await dio.post(
+      final response = await ApiHelper.dio.post(
         '/api/Auth/resend-otp',
         data: {"countryCode": countryCode, "phoneNumber": phoneNumber},
         options: token != null

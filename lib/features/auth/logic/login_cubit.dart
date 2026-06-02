@@ -1,3 +1,4 @@
+import 'package:cosmetics_app/core/network/api_helper.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -20,8 +21,6 @@ class LoginError extends AuthState {
 class LoginCubit extends Cubit<AuthState> {
   LoginCubit() : super(LoginInitial());
 
-  final dio = Dio(BaseOptions(baseUrl: "https://cosmatics.growfet.com"));
-
   final phoneController = TextEditingController();
   final passwordController = TextEditingController();
 
@@ -38,7 +37,7 @@ class LoginCubit extends Cubit<AuthState> {
   Future<void> getCountries() async {
     emit(CountriesLoading());
     try {
-      final response = await dio.get('/api/Countries');
+      final response = await ApiHelper.dio.get('/api/Countries');
       final List data = response.data;
       countries = data.map((e) => CountryModel.fromJson(e)).toList();
 
@@ -61,7 +60,7 @@ class LoginCubit extends Cubit<AuthState> {
 
     emit(LoginLoading());
     try {
-      final response = await dio.post(
+      final response = await ApiHelper.dio.post(
         '/api/Auth/login',
         data: {
           "countryCode": selectedCountry!.code,

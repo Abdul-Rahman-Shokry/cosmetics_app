@@ -1,3 +1,4 @@
+import 'package:cosmetics_app/core/widgets/app_image.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'on_boarding.dart';
@@ -14,9 +15,9 @@ class _SplashViewState extends State<SplashView> {
   void initState() {
     super.initState();
     Timer(const Duration(seconds: 3), () {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) =>  OnBoarding()),
-      );
+      Navigator.of(
+        context,
+      ).pushReplacement(MaterialPageRoute(builder: (context) => OnBoarding()));
     });
   }
 
@@ -28,12 +29,7 @@ class _SplashViewState extends State<SplashView> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset(
-              'assets/images/Layer_1.png',
-              width: 200,
-              height: 200,
-              fit: BoxFit.contain,
-            ),
+            AppImage("Layer_1.png", width: 200, height: 200),
             const SizedBox(height: 20),
             Text(
               'COSMATICS',
@@ -46,9 +42,9 @@ class _SplashViewState extends State<SplashView> {
             const SizedBox(height: 7.06),
             Text(
               'The company for woman',
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
+              style: Theme.of(
+                context,
+              ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
             ),
           ],
         ),

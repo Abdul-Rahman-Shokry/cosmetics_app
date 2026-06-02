@@ -1,31 +1,24 @@
+import 'package:cosmetics_app/core/network/api_helper.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import '../data/models/country_model.dart';
 import 'auth_state.dart';
 
-class ForgetPasswordInitial extends AuthState {}
+class ForgotPasswordInitial extends AuthState {}
 
-class ForgetPasswordLoading extends AuthState {}
+class ForgotPasswordLoading extends AuthState {}
 
-class ForgetPasswordSuccess extends AuthState {}
+class ForgotPasswordSuccess extends AuthState {}
 
-class ForgetPasswordError extends AuthState {
+class ForgotPasswordError extends AuthState {
   final String message;
 
-  ForgetPasswordError(this.message);
+  ForgotPasswordError(this.message);
 }
 
-class ForgetPasswordCubit extends Cubit<AuthState> {
-  ForgetPasswordCubit() : super(ForgetPasswordInitial());
-
-  final dio = Dio(
-    BaseOptions(
-      baseUrl: "https://cosmatics.growfet.com",
-      connectTimeout: const Duration(seconds: 10),
-      receiveTimeout: const Duration(seconds: 10),
-    ),
-  );
+class ForgotPasswordCubit extends Cubit<AuthState> {
+  ForgotPasswordCubit() : super(ForgotPasswordInitial());
 
   final phoneController = TextEditingController();
 
@@ -35,7 +28,7 @@ class ForgetPasswordCubit extends Cubit<AuthState> {
   Future<void> getCountries() async {
     emit(CountriesLoading());
     try {
-      final response = await dio.get('/api/Countries');
+      final response = await ApiHelper.dio.get('/api/Countries');
       final List data = response.data;
       countries = data.map((e) => CountryModel.fromJson(e)).toList();
 
@@ -44,19 +37,19 @@ class ForgetPasswordCubit extends Cubit<AuthState> {
       }
       emit(CountriesSuccess());
     } catch (e) {
-      emit(ForgetPasswordError("Failed to load countries"));
+      emit(ForgotPasswordError("Failed to load countries"));
     }
   }
 
-  Future<void> forgetPassword() async {
+  Future<void> ForgotPassword() async {
     if (phoneController.text.isEmpty || selectedCountry == null) {
-      emit(ForgetPasswordError("Please enter all fields"));
+      emit(ForgotPasswordError("Please enter all fields"));
       return;
     }
 
-    emit(ForgetPasswordLoading());
+    emit(ForgotPasswordLoading());
     try {
-      final response = await dio.post(
+      final response = await ApiHelper.dio.post(
         '/api/Auth/forgot-password',
         data: {
           "countryCode": selectedCountry!.code,
@@ -64,14 +57,14 @@ class ForgetPasswordCubit extends Cubit<AuthState> {
         },
       );
 
-      emit(ForgetPasswordSuccess());
+      emit(ForgotPasswordSuccess());
     } on DioException catch (e) {
       if (e.type == DioExceptionType.connectionTimeout ||
           e.type == DioExceptionType.receiveTimeout) {
-        emit(ForgetPasswordError("Connection timed out. Please try again."));
+        emit(ForgotPasswordError("Connection timed out. Please try again."));
       } else if (e.response != null) {
         emit(
-          ForgetPasswordError(e.response?.data['message'] ?? "Unknown Error"),
+          ForgotPasswordError(e.response?.data['message'] ?? "Unknown Error"),
         );
       }
     }

@@ -1,54 +1,55 @@
-import 'package:cosmetics_app/core/utils/helper_method.dart';
+import 'package:cosmetics_app/core/utils/helper_methods.dart';
 import 'package:cosmetics_app/features/auth/presentation/verify_code_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../core/constants/app_colors.dart';
+import '../../../core/widgets/app_image.dart';
 import '../../../core/widgets/auth_button.dart';
 import '../logic/auth_state.dart';
-import '../logic/forget_password_cubit.dart';
+import '../logic/forgot_password_cubit.dart';
 
-class ForgetPassword extends StatelessWidget {
-  const ForgetPassword({super.key});
+class ForgotPassword extends StatelessWidget {
+  const ForgotPassword({super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => ForgetPasswordCubit()..getCountries(),
+      create: (context) => ForgotPasswordCubit()..getCountries(),
 
       child: Scaffold(
         body: SafeArea(
           child: Padding(
             padding: const EdgeInsets.all(13.0),
             child: Center(
-              child: BlocConsumer<ForgetPasswordCubit, AuthState>(
+              child: BlocConsumer<ForgotPasswordCubit, AuthState>(
                 listener: (context, state) {
-                  if(state is ForgetPasswordError){
+                  if(state is ForgotPasswordError){
                     showMsg(state.message);
                   }
 
-                  else if (state is ForgetPasswordSuccess){
-                    final cubit = context.read<ForgetPasswordCubit>();
+                  else if (state is ForgotPasswordSuccess){
+                    final cubit = context.read<ForgotPasswordCubit>();
                     goTo(page: VerifyCode(
                       countryCode: cubit.selectedCountry!.code,
                       phoneNumber: cubit.phoneController.text,
-                      isForgetPasswordFlow: true,
+                      isForgotPasswordFlow: true,
                     ), canPop: true);
                   }
 
                 },
 
                 builder: (context, state) {
-                  final cubit = context.read<ForgetPasswordCubit>();
+                  final cubit = context.read<ForgotPasswordCubit>();
 
                   return Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Image.asset("assets/images/Layer_1_67_x_62.png"),
+                      AppImage("Layer_1_67_x_62.png"),
 
                       const SizedBox(height: 40),
 
                       Text(
-                        "Forget Password",
+                        "Forgot Password",
                         style: Theme.of(context).textTheme.displayLarge,
                       ),
 
@@ -94,7 +95,7 @@ class ForgetPassword extends StatelessWidget {
                                     cubit.selectedCountry = cubit.countries
                                         .firstWhere((c) => c.code == value);
 
-                                    cubit.emit(ForgetPasswordInitial());
+                                    cubit.emit(ForgotPasswordInitial());
                                   }
                                 },
                               ),
@@ -148,7 +149,7 @@ class ForgetPassword extends StatelessWidget {
                       SharedAuthButton(
                           text: "Next",
                           onPressed: () {
-                            cubit.forgetPassword();
+                            cubit.ForgotPassword();
                           }
                       ),
                     ],

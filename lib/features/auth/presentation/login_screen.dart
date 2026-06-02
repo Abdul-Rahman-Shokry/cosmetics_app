@@ -1,12 +1,12 @@
 import 'package:cosmetics_app/core/constants/app_colors.dart';
 import 'package:cosmetics_app/core/widgets/auth_button.dart';
-import 'package:cosmetics_app/features/auth/presentation/forget_password_screen.dart';
+import 'package:cosmetics_app/features/auth/presentation/forgot_password_screen.dart';
 import 'package:cosmetics_app/features/auth/presentation/register_screen.dart';
 import 'package:cosmetics_app/features/home/presentation/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import '../../../core/utils/helper_method.dart';
+import '../../../core/utils/helper_methods.dart';
+import '../../../core/widgets/app_image.dart';
 import '../logic/auth_state.dart';
 import '../logic/login_cubit.dart';
 
@@ -43,7 +43,9 @@ class LoginScreen extends StatelessWidget {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Image.asset("assets/images/login_img.png"),
+                        AppImage(
+                            "login_img.png",
+                        ),
 
                         const SizedBox(height: 25),
 
@@ -161,10 +163,10 @@ class LoginScreen extends StatelessWidget {
                                 },
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
-                                  child: SvgPicture.asset(
+                                  child: AppImage(
                                     cubit.isPasswordObscured
-                                        ? 'assets/images/visibility.svg'
-                                        : 'assets/images/visibility_off.svg',
+                                        ? 'visibility.svg'
+                                        : 'visibility_off.svg',
                                   ),
                                 ),
                               ),
@@ -196,7 +198,7 @@ class LoginScreen extends StatelessWidget {
                           alignment: Alignment.centerRight,
                           child: TextButton(
                             onPressed: () {
-                              goTo(page: ForgetPassword(), canPop: true);
+                              goTo(page: ForgotPassword(), canPop: true);
                             },
                             child: Text(
                               "Forget Password?",

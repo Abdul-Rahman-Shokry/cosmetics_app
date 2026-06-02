@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import '../../../core/network/api_helper.dart';
 import '../data/models/country_model.dart';
 import 'dart:developer';
 import 'auth_state.dart';
@@ -26,14 +27,6 @@ class RegisterError extends AuthState {
 class RegisterCubit extends Cubit<AuthState> {
   RegisterCubit() : super(RegisterInitial());
 
-  final dio = Dio(
-    BaseOptions(
-      baseUrl: "https://cosmatics.growfet.com",
-      connectTimeout: const Duration(seconds: 10),
-      receiveTimeout: const Duration(seconds: 10),
-    ),
-  );
-
   final usernameController = TextEditingController();
   final emailController = TextEditingController();
   final phoneController = TextEditingController();
@@ -53,7 +46,7 @@ class RegisterCubit extends Cubit<AuthState> {
   Future<void> getCountries() async {
     emit(CountriesLoading());
     try {
-      final response = await dio.get('/api/Countries');
+      final response = await ApiHelper.dio.get('/api/Countries');
       final List data = response.data;
       countries = data.map((e) => CountryModel.fromJson(e)).toList();
 
@@ -84,7 +77,7 @@ class RegisterCubit extends Cubit<AuthState> {
 
     emit(RegisterLoading());
     try {
-      final response = await dio.post(
+      final response = await ApiHelper.dio.post(
         '/api/Auth/register',
         data: {
           "username": usernameController.text,
