@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import '../../../core/network/api_error_handler.dart';
 import '../../../core/network/api_helper.dart';
 import 'auth_state.dart';
 
@@ -52,15 +52,8 @@ class ResetPasswordCubit extends Cubit<AuthState> {
       );
 
       emit(ResetPasswordSuccess());
-    } on DioException catch (e) {
-      if (e.type == DioExceptionType.connectionTimeout ||
-          e.type == DioExceptionType.receiveTimeout) {
-        emit(ResetPasswordError("Connection timed out. Please try again."));
-      } else if (e.response != null) {
-        emit(
-          ResetPasswordError(e.response?.data['message'] ?? "Unknown Error"),
-        );
-      }
+    } catch (e) {
+      emit(ResetPasswordError(ApiErrorHandler.getMessage(e)));
     }
   }
 }

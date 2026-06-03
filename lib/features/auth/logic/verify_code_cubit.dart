@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'dart:developer';
 import 'dart:async';
+import '../../../core/network/api_error_handler.dart';
 import '../../../core/network/api_helper.dart';
 import 'auth_state.dart';
 
@@ -98,15 +99,9 @@ class VerifyCodeCubit extends Cubit<AuthState> {
       log(message.toString());
 
       emit(VerifyCodeSuccess());
-    } on DioException catch (e) {
-      if (e.type == DioExceptionType.connectionTimeout ||
-          e.type == DioExceptionType.receiveTimeout) {
-        emit(VerifyCodeError("Connection timed out. Please try again."));
-      } else if (e.response != null) {
-        emit(VerifyCodeError(e.response?.data['message'] ?? "Unknown Error"));
-      }
+
     } catch (e) {
-      emit(VerifyCodeError(e.toString()));
+      emit(VerifyCodeError(ApiErrorHandler.getMessage(e)));
     }
   }
 
@@ -136,15 +131,9 @@ class VerifyCodeCubit extends Cubit<AuthState> {
       emit(ResendOTPSuccess(message));
 
       startTimer();
-    } on DioException catch (e) {
-      if (e.type == DioExceptionType.connectionTimeout ||
-          e.type == DioExceptionType.receiveTimeout) {
-        emit(ResendOTPError("Connection timed out. Please try again."));
-      } else if (e.response != null) {
-        emit(ResendOTPError(e.response?.data['message'] ?? "Unknown Error"));
-      }
+
     } catch (e) {
-      emit(ResendOTPError(e.toString()));
+      emit(ResendOTPError(ApiErrorHandler.getMessage(e)));
     }
   }
 }

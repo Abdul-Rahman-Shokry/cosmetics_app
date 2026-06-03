@@ -149,7 +149,7 @@ class ForgotPassword extends StatelessWidget {
                       SharedAuthButton(
                           text: "Next",
                           onPressed: () {
-                            cubit.ForgotPassword();
+                            cubit.forgotPassword();
                           }
                       ),
                     ],

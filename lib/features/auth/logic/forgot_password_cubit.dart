@@ -1,6 +1,6 @@
+import 'package:cosmetics_app/core/network/api_error_handler.dart';
 import 'package:cosmetics_app/core/network/api_helper.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import '../data/models/country_model.dart';
 import 'auth_state.dart';
@@ -41,7 +41,7 @@ class ForgotPasswordCubit extends Cubit<AuthState> {
     }
   }
 
-  Future<void> ForgotPassword() async {
+  Future<void> forgotPassword() async {
     if (phoneController.text.isEmpty || selectedCountry == null) {
       emit(ForgotPasswordError("Please enter all fields"));
       return;
@@ -58,15 +58,9 @@ class ForgotPasswordCubit extends Cubit<AuthState> {
       );
 
       emit(ForgotPasswordSuccess());
-    } on DioException catch (e) {
-      if (e.type == DioExceptionType.connectionTimeout ||
-          e.type == DioExceptionType.receiveTimeout) {
-        emit(ForgotPasswordError("Connection timed out. Please try again."));
-      } else if (e.response != null) {
-        emit(
-          ForgotPasswordError(e.response?.data['message'] ?? "Unknown Error"),
-        );
-      }
+
+    } catch (e) {
+      emit(ForgotPasswordError(ApiErrorHandler.getMessage(e)));
     }
   }
 }

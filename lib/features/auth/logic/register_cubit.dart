@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import '../../../core/network/api_error_handler.dart';
 import '../../../core/network/api_helper.dart';
 import '../data/models/country_model.dart';
 import 'dart:developer';
@@ -93,13 +93,8 @@ class RegisterCubit extends Cubit<AuthState> {
       log("Token: $message");
 
       emit(RegisterStepOneSuccess(token: message));
-    } on DioException catch (e) {
-      if (e.type == DioExceptionType.connectionTimeout ||
-          e.type == DioExceptionType.receiveTimeout) {
-        emit(RegisterError("Connection timed out. Please try again."));
-      } else if (e.response != null) {
-        emit(RegisterError(e.response?.data['message'] ?? "Unknown Error"));
-      }
+    } catch (e) {
+      emit(RegisterError(ApiErrorHandler.getMessage(e)));
     }
   }
 }

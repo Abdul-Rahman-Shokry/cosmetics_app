@@ -1,7 +1,7 @@
 import 'package:cosmetics_app/core/network/api_helper.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import '../../../core/network/api_error_handler.dart';
 import '../data/models/country_model.dart';
 import 'dart:developer';
 import 'auth_state.dart';
@@ -73,13 +73,8 @@ class LoginCubit extends Cubit<AuthState> {
       log("Token: $token");
 
       emit(LoginSuccess());
-    } on DioException catch (e) {
-      if (e.type == DioExceptionType.connectionTimeout ||
-          e.type == DioExceptionType.receiveTimeout) {
-        emit(LoginError("Connection timed out. Please try again."));
-      } else if (e.response != null) {
-        emit(LoginError(e.response?.data['message'] ?? "Unknown Error"));
-      }
+    } catch (e) {
+      emit(LoginError(ApiErrorHandler.getMessage(e)));
     }
   }
 }
