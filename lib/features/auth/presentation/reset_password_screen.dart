@@ -1,5 +1,6 @@
 import 'package:cosmetics_app/core/utils/helper_methods.dart';
 import 'package:cosmetics_app/core/widgets/app_image.dart';
+import 'package:cosmetics_app/core/widgets/success_dialog.dart';
 import 'package:cosmetics_app/features/auth/presentation/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -34,7 +35,22 @@ class ResetPasswordScreen extends StatelessWidget {
                     showMsg(state.message);
                   }
                   else if (state is ResetPasswordSuccess) {
-                    goTo(page: LoginScreen(), canPop: false);
+                    showDialog(
+                        context: context,
+                        barrierDismissible: false,
+                        builder: (context) {
+                          return SuccessDialog(
+                              title: "Password Created!",
+                              message: "Congratulations! Your password has been successfully created",
+                              buttonText: "Return to login",
+                              onPressed: (){
+                                Navigator.pop(context);
+                                goTo(page: LoginScreen(), canPop: false);
+                              }
+                          );
+                        }
+                    );
+                    // goTo(page: LoginScreen(), canPop: false);
                   }
                 },
 

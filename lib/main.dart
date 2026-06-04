@@ -1,8 +1,8 @@
 import 'package:cosmetics_app/core/constants/app_colors.dart';
 import 'package:cosmetics_app/core/network/api_helper.dart';
-import 'package:cosmetics_app/features/intro/presentation/splash.dart';
 import 'package:flutter/material.dart';
 import 'core/utils/helper_methods.dart';
+import 'features/intro/presentation/splash.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,6 +19,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(
           fontFamily: 'Montserrat',
+          scaffoldBackgroundColor: AppColors.background,
           textTheme: TextTheme(
             displayLarge: TextStyle(
               fontSize: 24,
@@ -33,6 +34,7 @@ class MyApp extends StatelessWidget {
       ),
       debugShowCheckedModeBanner: false,
       home: SplashView(),
+      // home: TestDialog(),
       navigatorKey: navKey,
     );
   }

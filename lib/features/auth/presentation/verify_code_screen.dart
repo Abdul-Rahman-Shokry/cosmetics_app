@@ -2,6 +2,8 @@ import 'package:cosmetics_app/core/constants/app_colors.dart';
 import 'package:cosmetics_app/core/utils/helper_methods.dart';
 import 'package:cosmetics_app/core/widgets/app_image.dart';
 import 'package:cosmetics_app/core/widgets/auth_button.dart';
+import 'package:cosmetics_app/core/widgets/success_dialog.dart';
+import 'package:cosmetics_app/features/auth/presentation/login_screen.dart';
 import 'package:cosmetics_app/features/auth/presentation/reset_password_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
@@ -69,8 +71,21 @@ class VerifyCode extends StatelessWidget {
                         phoneNumber: phoneNumber,
                       ), canPop: false);
                     } else {
-                      showMsg("Login successful!");
-                      goTo(page: HomeScreen(), canPop: false);
+                      showDialog(
+                          context: context,
+                          barrierDismissible: false,
+                          builder: (context) {
+                            return SuccessDialog(
+                                title: "Account Activated",
+                                message: "Congratulations! Your account has been successfully activated",
+                                buttonText: "Return to login",
+                                onPressed: (){
+                                  Navigator.pop(context);
+                                  goTo(page: LoginScreen(), canPop: false);
+                                },
+                            );
+                          }
+                      );
                     }
                   }
 
