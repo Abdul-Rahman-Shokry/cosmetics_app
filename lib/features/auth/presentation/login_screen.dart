@@ -3,6 +3,7 @@ import 'package:cosmetics_app/core/widgets/auth_button.dart';
 import 'package:cosmetics_app/features/auth/presentation/forgot_password_screen.dart';
 import 'package:cosmetics_app/features/auth/presentation/register_screen.dart';
 import 'package:cosmetics_app/features/home/presentation/home_screen.dart';
+import 'package:cosmetics_app/features/main_layout/main_layout_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../core/utils/helper_methods.dart';
@@ -31,8 +32,7 @@ class LoginScreen extends StatelessWidget {
                   showMsg(state.message);
 
                   } else if (state is LoginSuccess) {
-                    showMsg("Login successful!");
-                    goTo(page: HomeScreen(), canPop: false);
+                    goTo(page: MainLayoutScreen(), canPop: false);
                   }
                 },
 
