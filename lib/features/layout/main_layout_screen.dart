@@ -1,9 +1,19 @@
 import 'package:flutter/material.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/widgets/app_image.dart';
+import '../profile/presentation/profile_screen.dart';
 
 class MainLayoutScreen extends StatefulWidget {
-  const MainLayoutScreen({super.key});
+  final String token;
+  final String username;
+  final String profilePhoto;
+
+  const MainLayoutScreen({
+    super.key,
+    required this.token,
+    required this.username,
+    required this.profilePhoto,
+  });
 
   @override
   State<MainLayoutScreen> createState() => _MainLayoutScreenState();
@@ -12,11 +22,15 @@ class MainLayoutScreen extends StatefulWidget {
 class _MainLayoutScreenState extends State<MainLayoutScreen> {
   int currentIndex = 0;
 
-  final List<Widget> screens = [
+  List<Widget> get screens => [
     const Center(child: Text("Home Screen")),
     const Center(child: Text("Categories Screen")),
     const Center(child: Text("Cart Screen")),
-    const Center(child: Text("Profile Screen")),
+    ProfileScreen(
+      token: widget.token,
+      username: widget.username,
+      profilePhoto: widget.profilePhoto,
+    ),
   ];
 
   @override

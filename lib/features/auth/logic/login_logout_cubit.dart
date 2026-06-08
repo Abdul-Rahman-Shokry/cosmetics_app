@@ -1,4 +1,5 @@
 import 'package:cosmetics_app/core/network/api_helper.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 import '../../../core/network/api_error_handler.dart';
@@ -10,12 +11,28 @@ class LoginInitial extends AuthState {}
 
 class LoginLoading extends AuthState {}
 
-class LoginSuccess extends AuthState {}
+class LoginSuccess extends AuthState {
+  final String token;
+  final String username;
+  final String profilePhoto;
+
+  LoginSuccess(this.token, this.username, this.profilePhoto);
+}
 
 class LoginError extends AuthState {
   final String message;
 
   LoginError(this.message);
+}
+
+class LogoutLoading extends AuthState {}
+
+class LogoutSuccess extends AuthState {}
+
+class LogoutError extends AuthState {
+  final String message;
+
+  LogoutError(this.message);
 }
 
 class LoginCubit extends Cubit<AuthState> {
@@ -70,11 +87,35 @@ class LoginCubit extends Cubit<AuthState> {
       );
 
       final token = response.data['token'];
+
+      final user = response.data['user'];
+      final username = user['username'];
+      final profilePhoto = user['profilePhotoUrl'] ?? "profile_pic.png";
+
       log("Token: $token");
 
-      emit(LoginSuccess());
+      emit(LoginSuccess(token, username, profilePhoto));
     } catch (e) {
       emit(LoginError(ApiErrorHandler.getMessage(e)));
+    }
+  }
+
+  Future<void> logout(String token) async {
+
+    emit(LoginLoading());
+    try {
+      final response = await ApiHelper.dio.post(
+        '/api/Auth/logout',
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+          },
+        ),
+      );
+
+      emit(LogoutSuccess());
+    } catch (e) {
+      emit(LogoutError(ApiErrorHandler.getMessage(e)));
     }
   }
 }

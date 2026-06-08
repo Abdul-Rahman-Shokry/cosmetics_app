@@ -2,14 +2,13 @@ import 'package:cosmetics_app/core/constants/app_colors.dart';
 import 'package:cosmetics_app/core/widgets/auth_button.dart';
 import 'package:cosmetics_app/features/auth/presentation/forgot_password_screen.dart';
 import 'package:cosmetics_app/features/auth/presentation/register_screen.dart';
-import 'package:cosmetics_app/features/home/presentation/home_screen.dart';
-import 'package:cosmetics_app/features/main_layout/main_layout_screen.dart';
+import 'package:cosmetics_app/features/layout/main_layout_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../core/utils/helper_methods.dart';
 import '../../../core/widgets/app_image.dart';
 import '../logic/auth_state.dart';
-import '../logic/login_cubit.dart';
+import '../logic/login_logout_cubit.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -29,10 +28,16 @@ class LoginScreen extends StatelessWidget {
                     // if (state.message ==
                     //     "Account not verified. Please verify your phone number first.") {
                     //   goTo(page: VerifyCode(), canPop: true);
-                  showMsg(state.message);
-
+                    showMsg(state.message);
                   } else if (state is LoginSuccess) {
-                    goTo(page: MainLayoutScreen(), canPop: false);
+                    goTo(
+                      page: MainLayoutScreen(
+                        token: state.token,
+                        username: state.username,
+                        profilePhoto: state.profilePhoto,
+                      ),
+                      canPop: false,
+                    );
                   }
                 },
 
@@ -43,9 +48,7 @@ class LoginScreen extends StatelessWidget {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        AppImage(
-                            "login_img.png",
-                        ),
+                        AppImage("login_img.png"),
 
                         const SizedBox(height: 25),
 
@@ -186,7 +189,7 @@ class LoginScreen extends StatelessWidget {
                                 borderSide: BorderSide(
                                   color: AppColors.border,
                                   width: 1,
-                                  ),
+                                ),
                               ),
                             ),
                           ),
