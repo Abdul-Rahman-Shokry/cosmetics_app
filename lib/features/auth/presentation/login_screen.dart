@@ -33,8 +33,6 @@ class LoginScreen extends StatelessWidget {
                     goTo(
                       page: MainLayoutScreen(
                         token: state.token,
-                        username: state.username,
-                        profilePhoto: state.profilePhoto,
                       ),
                       canPop: false,
                     );

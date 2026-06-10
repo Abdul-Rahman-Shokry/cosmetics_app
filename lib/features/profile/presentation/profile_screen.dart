@@ -4,20 +4,39 @@ import 'package:cosmetics_app/features/auth/logic/login_logout_cubit.dart';
 import 'package:cosmetics_app/features/auth/presentation/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/widgets/app_image.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
   final String token;
-  final String username;
-  final String profilePhoto;
 
   const ProfileScreen({
     super.key,
     required this.token,
-    required this.username,
-    required this.profilePhoto,
   });
+
+  @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+  String username = "";
+  String profilePhoto = "profile_pic.png";
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserData();
+  }
+
+  Future<void> _loadUserData() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      username = prefs.getString('username') ?? "User";
+      profilePhoto = prefs.getString('profilePhotoUrl') ?? "profile_pic.png";
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -131,7 +150,7 @@ class ProfileScreen extends StatelessWidget {
                           title: "Logout",
                           isLogout: true,
                           onTap: (){
-                            context.read<LoginCubit>().logout(token);
+                            context.read<LoginCubit>().logout(widget.token);
                           },
                         ),
                       ],

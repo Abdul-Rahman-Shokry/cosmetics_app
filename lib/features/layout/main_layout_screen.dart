@@ -5,14 +5,10 @@ import '../profile/presentation/profile_screen.dart';
 
 class MainLayoutScreen extends StatefulWidget {
   final String token;
-  final String username;
-  final String profilePhoto;
 
   const MainLayoutScreen({
     super.key,
     required this.token,
-    required this.username,
-    required this.profilePhoto,
   });
 
   @override
@@ -28,8 +24,6 @@ class _MainLayoutScreenState extends State<MainLayoutScreen> {
     const Center(child: Text("Cart Screen")),
     ProfileScreen(
       token: widget.token,
-      username: widget.username,
-      profilePhoto: widget.profilePhoto,
     ),
   ];
 

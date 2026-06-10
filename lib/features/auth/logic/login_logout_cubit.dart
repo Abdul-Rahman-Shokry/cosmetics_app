@@ -2,6 +2,7 @@ import 'package:cosmetics_app/core/network/api_helper.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../core/network/api_error_handler.dart';
 import '../data/models/country_model.dart';
 import 'dart:developer';
@@ -13,10 +14,8 @@ class LoginLoading extends AuthState {}
 
 class LoginSuccess extends AuthState {
   final String token;
-  final String username;
-  final String profilePhoto;
 
-  LoginSuccess(this.token, this.username, this.profilePhoto);
+  LoginSuccess(this.token);
 }
 
 class LoginError extends AuthState {
@@ -87,14 +86,17 @@ class LoginCubit extends Cubit<AuthState> {
       );
 
       final token = response.data['token'];
-
       final user = response.data['user'];
       final username = user['username'];
       final profilePhoto = user['profilePhotoUrl'] ?? "profile_pic.png";
 
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString('username', username);
+      await prefs.setString('profilePhotoUrl', profilePhoto);
+
       log("Token: $token");
 
-      emit(LoginSuccess(token, username, profilePhoto));
+      emit(LoginSuccess(token));
     } catch (e) {
       emit(LoginError(ApiErrorHandler.getMessage(e)));
     }
