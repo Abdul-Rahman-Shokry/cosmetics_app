@@ -1,12 +1,14 @@
 # Cosmetics App
 
-A beautiful Flutter application for cosmetic products, currently featuring a modern onboarding experience and elegant UI design.
+A beautiful Flutter application for cosmetic products, featuring a modern onboarding experience, elegant UI design, and robust architecture.
 
 ## Features
 
 - **Custom Splash Screen**: Engaging entry point for the application.
 - **Onboarding Flow**: A multi-step introductory guide to welcome users and explain the app's features.
-- **Custom Typography**: Integrates the elegant `LexandPeta-Light` font family for a premium aesthetic feel.
+- **State Management & Networking**: Uses `flutter_bloc` for scalable state management and `dio` for efficient API requests.
+- **Local Storage**: Uses `shared_preferences` for managing local user data and sessions.
+- **Custom Typography**: Integrates elegant fonts like `Montserrat`, `Inter`, and `Segoe UI` for a premium aesthetic feel.
 - **Material Design**: Uses Flutter's Material components.
 
 ## Getting Started
@@ -45,29 +47,26 @@ flutter run
 
 ```text
 lib/
-├── main.dart                  # Entry point of the application
-└── onboarding/                # Onboarding feature module
-    ├── splash_screen.dart     # Initial loading screen
-    ├── on_boarding_1.dart     # First onboarding page
-    ├── on_boarding_2.dart     # Second onboarding page
-    └── on_boarding_3.dart     # Third onboarding page
+├── core/                      # Core application code (constants, network, utils, widgets)
+├── features/                  # Feature modules
+│   ├── auth/                  # Authentication feature
+│   ├── home/                  # Home screen feature
+│   ├── intro/                 # Splash and onboarding feature
+│   ├── layout/                # Main app layout and navigation
+│   └── profile/               # User profile feature
+└── main.dart                  # Entry point of the application
 assets/
 ├── images/                    # Local image assets
-└── fonts/                     # Custom fonts (LexendPeta-Light)
+├── svg/                       # SVG icon assets
+└── fonts/                     # Custom fonts (Montserrat, Inter, Segoe-UI)
 ```
 
 ## Technologies Used
 
 - [Flutter](https://flutter.dev/) - UI Toolkit
 - [Dart](https://dart.dev/) - Programming Language
-
-## Additional Resources
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- [flutter_bloc](https://pub.dev/packages/flutter_bloc) - State Management
+- [dio](https://pub.dev/packages/dio) - HTTP Client
+- [shared_preferences](https://pub.dev/packages/shared_preferences) - Local Storage
+- [flutter_svg](https://pub.dev/packages/flutter_svg) - SVG Rendering
+- [pinput](https://pub.dev/packages/pinput) - Pin code input
