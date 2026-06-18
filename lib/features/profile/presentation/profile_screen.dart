@@ -9,12 +9,7 @@ import '../../../core/constants/app_colors.dart';
 import '../../../core/widgets/app_image.dart';
 
 class ProfileScreen extends StatefulWidget {
-  final String token;
-
-  const ProfileScreen({
-    super.key,
-    required this.token,
-  });
+  const ProfileScreen({super.key,});
 
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
@@ -150,7 +145,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           title: "Logout",
                           isLogout: true,
                           onTap: (){
-                            context.read<LoginCubit>().logout(widget.token);
+                            context.read<LoginCubit>().logout();
                           },
                         ),
                       ],

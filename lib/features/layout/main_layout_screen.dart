@@ -4,12 +4,7 @@ import '../../../core/widgets/app_image.dart';
 import '../profile/presentation/profile_screen.dart';
 
 class MainLayoutScreen extends StatefulWidget {
-  final String token;
-
-  const MainLayoutScreen({
-    super.key,
-    required this.token,
-  });
+  const MainLayoutScreen({super.key,});
 
   @override
   State<MainLayoutScreen> createState() => _MainLayoutScreenState();
@@ -22,9 +17,7 @@ class _MainLayoutScreenState extends State<MainLayoutScreen> {
     const Center(child: Text("Home Screen")),
     const Center(child: Text("Categories Screen")),
     const Center(child: Text("Cart Screen")),
-    ProfileScreen(
-      token: widget.token,
-    ),
+    const ProfileScreen(),
   ];
 
   @override

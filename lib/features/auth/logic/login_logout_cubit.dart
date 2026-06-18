@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../core/network/api_error_handler.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import '../data/models/country_model.dart';
 import 'dart:developer';
 import 'auth_state.dart';
@@ -12,11 +13,7 @@ class LoginInitial extends AuthState {}
 
 class LoginLoading extends AuthState {}
 
-class LoginSuccess extends AuthState {
-  final String token;
-
-  LoginSuccess(this.token);
-}
+class LoginSuccess extends AuthState {}
 
 class LoginError extends AuthState {
   final String message;
@@ -44,6 +41,8 @@ class LoginCubit extends Cubit<AuthState> {
   CountryModel? selectedCountry;
 
   bool isPasswordObscured = true;
+
+  final _secureStorage = const FlutterSecureStorage();
 
   void togglePasswordVisibility() {
     isPasswordObscured = !isPasswordObscured;
@@ -94,19 +93,22 @@ class LoginCubit extends Cubit<AuthState> {
       await prefs.setString('username', username);
       await prefs.setString('profilePhotoUrl', profilePhoto);
 
+      await _secureStorage.write(key: 'token', value: token);
+
       log("Token: $token");
 
-      emit(LoginSuccess(token));
+      emit(LoginSuccess());
     } catch (e) {
       emit(LoginError(ApiErrorHandler.getMessage(e)));
     }
   }
 
-  Future<void> logout(String token) async {
-
+  Future<void> logout() async {
     emit(LoginLoading());
     try {
-      final response = await ApiHelper.dio.post(
+      final token = await _secureStorage.read(key: 'token');
+
+      await ApiHelper.dio.post(
         '/api/Auth/logout',
         options: Options(
           headers: {
@@ -114,6 +116,11 @@ class LoginCubit extends Cubit<AuthState> {
           },
         ),
       );
+
+      await _secureStorage.deleteAll();
+
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.clear();
 
       emit(LogoutSuccess());
     } catch (e) {

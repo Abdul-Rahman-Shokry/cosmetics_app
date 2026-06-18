@@ -31,9 +31,7 @@ class LoginScreen extends StatelessWidget {
                     showMsg(state.message);
                   } else if (state is LoginSuccess) {
                     goTo(
-                      page: MainLayoutScreen(
-                        token: state.token,
-                      ),
+                      page: const MainLayoutScreen(),
                       canPop: false,
                     );
                   }
