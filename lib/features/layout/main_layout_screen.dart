@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/widgets/app_image.dart';
+import '../home/presentation/home_screen.dart';
 import '../profile/presentation/profile_screen.dart';
 
 class MainLayoutScreen extends StatefulWidget {
@@ -14,7 +15,7 @@ class _MainLayoutScreenState extends State<MainLayoutScreen> {
   int currentIndex = 0;
 
   List<Widget> get screens => [
-    const Center(child: Text("Home Screen")),
+    const HomeScreen(),
     const Center(child: Text("Categories Screen")),
     const Center(child: Text("Cart Screen")),
     const ProfileScreen(),

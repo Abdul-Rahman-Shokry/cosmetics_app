@@ -1,5 +1,6 @@
 import 'package:cosmetics_app/core/constants/app_colors.dart';
 import 'package:cosmetics_app/core/network/api_helper.dart';
+import 'package:cosmetics_app/features/home/presentation/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'core/utils/helper_methods.dart';
 import 'features/intro/presentation/splash.dart';
@@ -34,7 +35,7 @@ class MyApp extends StatelessWidget {
       ),
       debugShowCheckedModeBanner: false,
       home: SplashView(),
-      // home: MainLayoutScreen(),
+      // home: HomeScreen(),
       navigatorKey: navKey,
     );
   }
