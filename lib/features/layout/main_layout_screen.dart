@@ -1,3 +1,4 @@
+import 'package:cosmetics_app/features/categories/presentation/categories_screen.dart';
 import 'package:flutter/material.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/widgets/app_image.dart';
@@ -16,7 +17,7 @@ class _MainLayoutScreenState extends State<MainLayoutScreen> {
 
   List<Widget> get screens => [
     const HomeScreen(),
-    const Center(child: Text("Categories Screen")),
+    const CategoriesScreen(),
     const Center(child: Text("Cart Screen")),
     const ProfileScreen(),
   ];
