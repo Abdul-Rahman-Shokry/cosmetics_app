@@ -194,13 +194,26 @@ class HomeScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(
-            child: ClipRRect(
-              borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
-              child: AppImage(
-                product.imageUrl,
-                width: double.infinity,
-                fit: BoxFit.cover,
-              ),
+            child: Stack(
+              children: [
+                ClipRRect(
+                  borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
+                  child: AppImage(
+                    product.imageUrl,
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                Positioned(
+                  top: 8,
+                  right: 8,
+                  child: AnimatedCartButton(
+                    onTap: () {
+                      context.read<HomeCubit>().addToCart(product.id);
+                    },
+                  ),
+                ),
+              ],
             ),
           ),
           Padding(
@@ -231,6 +244,67 @@ class HomeScreen extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class AnimatedCartButton extends StatefulWidget {
+  final VoidCallback onTap;
+
+  const AnimatedCartButton({super.key, required this.onTap});
+
+  @override
+  State<AnimatedCartButton> createState() => _AnimatedCartButtonState();
+}
+
+class _AnimatedCartButtonState extends State<AnimatedCartButton> {
+  bool _isPressed = false;
+
+  void _handleTap() async {
+    setState(() {
+      _isPressed = true;
+    });
+
+    widget.onTap();
+
+    await Future.delayed(const Duration(milliseconds: 150));
+
+    if (mounted) {
+      setState(() {
+        _isPressed = false;
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: _handleTap,
+      child: AnimatedScale(
+        scale: _isPressed ? 0.8 : 1.0,
+        duration: const Duration(milliseconds: 150),
+        curve: Curves.easeInOut,
+        child: Container(
+          padding: const EdgeInsets.all(6),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(8),
+            boxShadow: [
+              if (!_isPressed)
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.1),
+                  blurRadius: 4,
+                  offset: const Offset(0, 2),
+                ),
+            ],
+          ),
+          child: Icon(
+            Icons.add_shopping_cart,
+            color: _isPressed ? AppColors.primaryButton.withValues(alpha: 0.7) : AppColors.primaryButton,
+            size: 20,
+          ),
+        ),
       ),
     );
   }
