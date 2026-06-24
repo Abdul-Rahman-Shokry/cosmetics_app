@@ -44,7 +44,7 @@ class LoginScreen extends StatelessWidget {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        AppImage("login_img.png"),
+                        const AppImage("login_img.png"),
 
                         const SizedBox(height: 25),
 
@@ -79,7 +79,7 @@ class LoginScreen extends StatelessWidget {
                               ),
                               child: DropdownButtonHideUnderline(
                                 child: DropdownButton<String>(
-                                  icon: Icon(Icons.keyboard_arrow_down),
+                                  icon: const Icon(Icons.keyboard_arrow_down),
                                   value: cubit.selectedCountry?.code,
                                   items: cubit.countries.map((country) {
                                     return DropdownMenuItem(
@@ -113,10 +113,10 @@ class LoginScreen extends StatelessWidget {
                                     labelStyle: Theme.of(
                                       context,
                                     ).textTheme.bodyMedium,
-                                    counter: SizedBox.shrink(),
+                                    counter: const SizedBox.shrink(),
                                     floatingLabelBehavior:
                                         FloatingLabelBehavior.always,
-                                    enabledBorder: OutlineInputBorder(
+                                    enabledBorder: const OutlineInputBorder(
                                       borderRadius: BorderRadius.all(
                                         Radius.circular(8),
                                       ),
@@ -125,7 +125,7 @@ class LoginScreen extends StatelessWidget {
                                         width: 1,
                                       ),
                                     ),
-                                    focusedBorder: OutlineInputBorder(
+                                    focusedBorder: const OutlineInputBorder(
                                       borderRadius: BorderRadius.all(
                                         Radius.circular(8),
                                       ),
@@ -153,7 +153,7 @@ class LoginScreen extends StatelessWidget {
                               labelStyle: Theme.of(
                                 context,
                               ).textTheme.bodyMedium?.copyWith(fontSize: 12),
-                              counter: SizedBox.shrink(),
+                              counter: const SizedBox.shrink(),
                               floatingLabelBehavior:
                                   FloatingLabelBehavior.never,
                               suffixIcon: GestureDetector(
@@ -169,7 +169,7 @@ class LoginScreen extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              enabledBorder: OutlineInputBorder(
+                              enabledBorder: const OutlineInputBorder(
                                 borderRadius: BorderRadius.all(
                                   Radius.circular(8),
                                 ),
@@ -178,7 +178,7 @@ class LoginScreen extends StatelessWidget {
                                   width: 1,
                                 ),
                               ),
-                              focusedBorder: OutlineInputBorder(
+                              focusedBorder: const OutlineInputBorder(
                                 borderRadius: BorderRadius.all(
                                   Radius.circular(8),
                                 ),
@@ -197,7 +197,7 @@ class LoginScreen extends StatelessWidget {
                           alignment: Alignment.centerRight,
                           child: TextButton(
                             onPressed: () {
-                              goTo(page: ForgotPassword(), canPop: true);
+                              goTo(page: const ForgotPassword(), canPop: true);
                             },
                             child: Text(
                               "Forget Password?",
@@ -235,7 +235,7 @@ class LoginScreen extends StatelessWidget {
                             ),
                             GestureDetector(
                               onTap: () {
-                                goTo(page: RegisterScreen(), canPop: true);
+                                goTo(page: const RegisterScreen(), canPop: true);
                               },
                               child: Text(
                                 "Register",

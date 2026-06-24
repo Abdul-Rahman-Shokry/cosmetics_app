@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
           fontFamily: 'Montserrat',
           scaffoldBackgroundColor: AppColors.background,
-          textTheme: TextTheme(
+          textTheme: const TextTheme(
             displayLarge: TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.bold,
@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
           ),
       ),
       debugShowCheckedModeBanner: false,
-      home: SplashView(),
+      home: const SplashView(),
       // home: CartScreen(),
       navigatorKey: navKey,
     );

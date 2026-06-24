@@ -45,7 +45,7 @@ class ResetPasswordScreen extends StatelessWidget {
                               buttonText: "Return to login",
                               onPressed: (){
                                 Navigator.pop(context);
-                                goTo(page: LoginScreen(), canPop: false);
+                                goTo(page: const LoginScreen(), canPop: false);
                               }
                           );
                         }
@@ -60,7 +60,7 @@ class ResetPasswordScreen extends StatelessWidget {
                   return Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      AppImage("Layer_1_67_x_62.png"),
+                      const AppImage("Layer_1_67_x_62.png"),
 
                       const SizedBox(height: 40),
 
@@ -94,7 +94,7 @@ class ResetPasswordScreen extends StatelessWidget {
                             labelStyle: Theme.of(
                               context,
                             ).textTheme.bodyMedium?.copyWith(fontSize: 12),
-                            counter: SizedBox.shrink(),
+                            counter: const SizedBox.shrink(),
                             floatingLabelBehavior: FloatingLabelBehavior.never,
                             suffixIcon: GestureDetector(
                               onTap: () {
@@ -109,7 +109,7 @@ class ResetPasswordScreen extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            enabledBorder: OutlineInputBorder(
+                            enabledBorder: const OutlineInputBorder(
                               borderRadius: BorderRadius.all(
                                 Radius.circular(8),
                               ),
@@ -118,7 +118,7 @@ class ResetPasswordScreen extends StatelessWidget {
                                 width: 1,
                               ),
                             ),
-                            focusedBorder: OutlineInputBorder(
+                            focusedBorder: const OutlineInputBorder(
                               borderRadius: BorderRadius.all(
                                 Radius.circular(8),
                               ),
@@ -145,7 +145,7 @@ class ResetPasswordScreen extends StatelessWidget {
                             labelStyle: Theme.of(
                               context,
                             ).textTheme.bodyMedium?.copyWith(fontSize: 12),
-                            counter: SizedBox.shrink(),
+                            counter: const SizedBox.shrink(),
                             floatingLabelBehavior: FloatingLabelBehavior.never,
                             suffixIcon: GestureDetector(
                               onTap: () {
@@ -160,7 +160,7 @@ class ResetPasswordScreen extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            enabledBorder: OutlineInputBorder(
+                            enabledBorder: const OutlineInputBorder(
                               borderRadius: BorderRadius.all(
                                 Radius.circular(8),
                               ),
@@ -169,7 +169,7 @@ class ResetPasswordScreen extends StatelessWidget {
                                 width: 1,
                               ),
                             ),
-                            focusedBorder: OutlineInputBorder(
+                            focusedBorder: const OutlineInputBorder(
                               borderRadius: BorderRadius.all(
                                 Radius.circular(8),
                               ),

@@ -57,7 +57,7 @@ class VerifyCode extends StatelessWidget {
       child: Scaffold(
         body: SafeArea(
           child: Padding(
-            padding: EdgeInsets.all(13),
+            padding: const EdgeInsets.all(13),
             child: Center(
               child: BlocConsumer<VerifyCodeCubit, AuthState>(
                 listener: (context, state) {
@@ -80,7 +80,7 @@ class VerifyCode extends StatelessWidget {
                                 buttonText: "Return to login",
                                 onPressed: (){
                                   Navigator.pop(context);
-                                  goTo(page: LoginScreen(), canPop: false);
+                                  goTo(page: const LoginScreen(), canPop: false);
                                 },
                             );
                           }
@@ -104,7 +104,7 @@ class VerifyCode extends StatelessWidget {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        AppImage("Layer_1_67_x_62.png"),
+                        const AppImage("Layer_1_67_x_62.png"),
 
                         const SizedBox(height: 40),
 
@@ -171,9 +171,9 @@ class VerifyCode extends StatelessWidget {
                                     ),
                                 children: [
                                   state is ResendOTPLoading
-                                      ? WidgetSpan(
+                                      ? const WidgetSpan(
                                     alignment: PlaceholderAlignment.middle,
-                                    child: const SizedBox(
+                                    child: SizedBox(
                                       height: 12,
                                       width: 12,
                                       child: CircularProgressIndicator(

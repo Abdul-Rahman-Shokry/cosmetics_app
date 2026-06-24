@@ -42,7 +42,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         body: BlocConsumer<LoginCubit, AuthState>(
           listener: (context, state) {
             if (state is LogoutSuccess){
-              goTo(page: LoginScreen(), canPop: false);
+              goTo(page: const LoginScreen(), canPop: false);
             } else if (state is LogoutError){
               showMsg(state.message);
             }
@@ -189,7 +189,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
             ),
             const Spacer(),
-            if (!isLogout) AppImage('arrow-right.svg', width: 24, height: 24),
+            if (!isLogout) const AppImage('arrow-right.svg', width: 24, height: 24),
           ],
         ),
       ),

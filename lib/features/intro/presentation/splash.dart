@@ -1,3 +1,4 @@
+import 'package:cosmetics_app/core/utils/helper_methods.dart';
 import 'package:cosmetics_app/core/widgets/app_image.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
@@ -11,13 +12,36 @@ class SplashView extends StatefulWidget {
 }
 
 class _SplashViewState extends State<SplashView> {
+
+  // TODO
+  // final _secureStorage = const FlutterSecureStorage();
+
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   _checkUserLoginStatus();
+  // }
+  //
+  // Future<void> _checkUserLoginStatus() async {
+  //   final String? token = await _secureStorage.read(key: 'token');
+  //
+  //   await Future.delayed(const Duration(seconds: 3));
+  //
+  //   if(mounted){
+  //     if(token != null && token.isNotEmpty){
+  //       goTo(page: MainLayoutScreen(), canPop: false);
+  //     } else {
+  //       goTo(page: OnBoarding(), canPop: false);
+  //     }
+  //   }
+  // }
+
   @override
   void initState() {
     super.initState();
     Timer(const Duration(seconds: 3), () {
-      Navigator.of(
-        context,
-      ).pushReplacement(MaterialPageRoute(builder: (context) => OnBoarding()));
+      goTo(page: const OnBoarding(), canPop: false);
     });
   }
 
@@ -28,7 +52,7 @@ class _SplashViewState extends State<SplashView> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            AppImage("Layer_1.png", width: 200, height: 200),
+            const AppImage("Layer_1.png", width: 200, height: 200),
             const SizedBox(height: 20),
             Text(
               'COSMATICS',

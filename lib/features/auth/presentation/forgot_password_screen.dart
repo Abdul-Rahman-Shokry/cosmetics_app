@@ -44,7 +44,7 @@ class ForgotPassword extends StatelessWidget {
                   return Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      AppImage("Layer_1_67_x_62.png"),
+                      const AppImage("Layer_1_67_x_62.png"),
 
                       const SizedBox(height: 40),
 
@@ -82,7 +82,7 @@ class ForgotPassword extends StatelessWidget {
                             ),
                             child: DropdownButtonHideUnderline(
                               child: DropdownButton<String>(
-                                icon: Icon(Icons.keyboard_arrow_down),
+                                icon: const Icon(Icons.keyboard_arrow_down),
                                 value: cubit.selectedCountry?.code,
                                 items: cubit.countries.map((country) {
                                   return DropdownMenuItem(
@@ -116,10 +116,10 @@ class ForgotPassword extends StatelessWidget {
                                   labelStyle: Theme.of(
                                     context,
                                   ).textTheme.bodyMedium,
-                                  counter: SizedBox.shrink(),
+                                  counter: const SizedBox.shrink(),
                                   floatingLabelBehavior:
                                       FloatingLabelBehavior.always,
-                                  enabledBorder: OutlineInputBorder(
+                                  enabledBorder: const OutlineInputBorder(
                                     borderRadius: BorderRadius.all(
                                       Radius.circular(8),
                                     ),
@@ -128,7 +128,7 @@ class ForgotPassword extends StatelessWidget {
                                       width: 1,
                                     ),
                                   ),
-                                  focusedBorder: OutlineInputBorder(
+                                  focusedBorder: const OutlineInputBorder(
                                     borderRadius: BorderRadius.all(
                                       Radius.circular(8),
                                     ),

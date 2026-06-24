@@ -29,7 +29,7 @@ class SuccessDialog extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              AppImage("success_dialog_checkmark.svg", width: 100, height: 100,),
+              const AppImage("success_dialog_checkmark.svg", width: 100, height: 100,),
 
               const SizedBox(height: 25),
 

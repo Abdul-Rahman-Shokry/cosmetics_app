@@ -97,7 +97,7 @@ class CheckoutScreen extends StatelessWidget {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(12),
-            child: AppImage("location.png", width: 97, height: 60,)
+            child: const AppImage("location.png", width: 97, height: 60,)
           ),
           const SizedBox(width: 15),
           const Expanded(

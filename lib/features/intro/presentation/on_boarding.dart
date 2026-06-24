@@ -48,7 +48,7 @@ class _OnBoardingState extends State<OnBoarding> {
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 40),
+          padding: const EdgeInsets.symmetric(horizontal: 40),
           child: Column(
             children: [
               Visibility(
@@ -60,7 +60,7 @@ class _OnBoardingState extends State<OnBoarding> {
                     alignment: Alignment.topRight,
                     child: TextButton(
                       onPressed: () {
-                        goTo(page: LoginScreen(), canPop: false);
+                        goTo(page: const LoginScreen(), canPop: false);
                       },
                       child: Text(
                         "Skip",
@@ -109,18 +109,18 @@ class _OnBoardingState extends State<OnBoarding> {
                               Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => LoginScreen(),
+                                  builder: (context) => const LoginScreen(),
                                 ),
                               );
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: AppColors.primaryText,
-                              fixedSize: Size(268, 65),
+                              fixedSize: const Size(268, 65),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(60),
                               ),
                             ),
-                            child: Text(
+                            child: const Text(
                               "let's start!",
                               style: TextStyle(
                                 color: Colors.white,
@@ -133,7 +133,7 @@ class _OnBoardingState extends State<OnBoarding> {
                               currentIndex++;
                               setState(() {});
                             },
-                            icon: Icon(
+                            icon: const Icon(
                               Icons.arrow_forward_ios_sharp,
                               color: Colors.white,
                             ),
